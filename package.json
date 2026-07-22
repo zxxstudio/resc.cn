@@ -23,13 +23,6 @@
     "preview": "vitepress preview",
     "deploy:vercel": "vercel deploy"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "@parcel/watcher",
-      "esbuild",
-      "vue-demi"
-    ]
-  },
   "devDependencies": {
     "cheerio": "1.0.0-rc.12",
     "eslint": "^8.57.1",

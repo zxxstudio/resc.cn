@@ -39,13 +39,7 @@ jobs:
           cache: pnpm
 
       - name: 安装依赖
-        run: |
-          # Write .npmrc to allow build scripts for native deps
-          echo 'onlyBuiltDependencies[]=@parcel/watcher' >> .npmrc
-          echo 'onlyBuiltDependencies[]=esbuild' >> .npmrc
-          echo 'onlyBuiltDependencies[]=vue-demi' >> .npmrc
-          cat .npmrc
-          pnpm install --no-frozen-lockfile
+        run: pnpm install --no-frozen-lockfile
 
       - name: 构建网站
         run: node node_modules/vitepress/bin/vitepress.js build
