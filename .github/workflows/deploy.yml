@@ -44,6 +44,7 @@ jobs:
           echo 'onlyBuiltDependencies[]=@parcel/watcher' >> .npmrc
           echo 'onlyBuiltDependencies[]=esbuild' >> .npmrc
           echo 'onlyBuiltDependencies[]=vue-demi' >> .npmrc
+          cat .npmrc
           pnpm install --no-frozen-lockfile
 
       - name: 构建网站
