@@ -57,7 +57,13 @@ jobs:
           echo "$SSH_KEY" | sed 's/\r$//' > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           # rsync 同步
+          # 调试：看 SSH 详细输出
+          ssh -v -i ~/.ssh/deploy_key -p $SERVER_PORT \
+            -o StrictHostKeyChecking=no \
+            -o LogLevel=DEBUG \
+            "$SERVER_USER@$SERVER_HOST" "echo 'SSH OK'"
+          # 正式同步
           rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -p $SERVER_PORT -o StrictHostKeyChecking=no" \
+            -e "ssh -i ~/.ssh/deploy_key -p $SERVER_PORT -o StrictHostKeyChecking=no -o LogLevel=ERROR" \
             .vitepress/dist/ \
             "$SERVER_USER@$SERVER_HOST:$REMOTE_TARGET"
