@@ -38,8 +38,10 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      - name: 安装依赖
-        run: pnpm install --no-frozen-lockfile
+      - name: 配置并安装依赖
+        run: |
+          pnpm config set --location project --json onlyBuiltDependencies '["@parcel/watcher","esbuild","vue-demi"]'
+          pnpm install --no-frozen-lockfile
 
       - name: 构建网站
         run: node node_modules/vitepress/bin/vitepress.js build
