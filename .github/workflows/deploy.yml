@@ -40,8 +40,8 @@ jobs:
 
       - name: 安装依赖
         run: |
-          pnpm config set onlyBuiltDependencies "@parcel/watcher,esbuild,vue-demi"
           pnpm install --no-frozen-lockfile
+          pnpm approve-builds @parcel/watcher esbuild vue-demi
 
       - name: 构建网站
         run: node node_modules/vitepress/bin/vitepress.js build
