@@ -2,11 +2,11 @@
 # 触发：推送 main 分支，或手动点 Run workflow
 #
 # 需要在 GitHub 仓库 Settings -> Secrets and variables -> Actions 里配置以下密钥：
-#   SERVER_HOST    服务器公网 IP，例如 1.2.3.4
-#   SERVER_PORT    SSH 端口，一般是 22
-#   SERVER_USER    SSH 登录用户名，例如 root
-#   SERVER_SSH_KEY 私钥内容（用 ssh-keygen 生成，把公钥放到服务器，私钥填这里）
-#   SERVER_TARGET  服务器上网站根目录，例如 /www/wwwroot/resc.cn
+#   SERVER_HOST     服务器公网 IP，例如 1.2.3.4
+#   REMOTE_PORT     SSH 端口，一般是 22
+#   REMOTE_USER     SSH 登录用户名，例如 root
+#   SSH_PRIVATE_KEY SSH 私钥内容（用 ssh-keygen 生成，把公钥放到服务器，私钥填这里）
+#   REMOTE_TARGET   服务器上网站根目录，例如 /www/wwwroot/resc.cn
 #
 # 工作流程：拉代码 -> 装依赖 -> 构建 -> 把 .vitepress/dist 上传到服务器
 
@@ -44,10 +44,10 @@ jobs:
       - name: 上传到服务器
         uses: easingthemes/ssh-deploy@v5
         with:
-          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.SERVER_HOST }}
-          REMOTE_USER: ${{ secrets.SERVER_USER }}
-          REMOTE_PORT: ${{ secrets.SERVER_PORT }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
           SOURCE: ".vitepress/dist/"
-          TARGET: ${{ secrets.SERVER_TARGET }}
+          TARGET: ${{ secrets.REMOTE_TARGET }}
           ARGS: "-avzr --delete"
