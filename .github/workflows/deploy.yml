@@ -44,10 +44,10 @@ jobs:
       - name: 上传到服务器
         uses: easingthemes/ssh-deploy@v5
         with:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+          SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
+          REMOTE_HOST: ${{ secrets.SERVER_HOST }}
+          REMOTE_USER: ${{ secrets.SERVER_USER }}
+          REMOTE_PORT: ${{ secrets.SERVER_PORT }}
           SOURCE: ".vitepress/dist/"
-          TARGET: ${{ secrets.REMOTE_TARGET }}
+          TARGET: ${{ secrets.SERVER_TARGET }}
           ARGS: "-avzr --delete"
