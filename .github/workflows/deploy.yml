@@ -47,7 +47,7 @@ jobs:
         run: |
           mkdir -p ~/.ssh
           # 从文件读取 base64 私钥，解码为原始文件
-          base64 -d .github/deploy_key.b64 > ~/.ssh/deploy_key
+          base64 -d deploy_key.b64 > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           echo "key bytes: $(wc -c < ~/.ssh/deploy_key)"
           echo "key type: $(ssh-keygen -l -f ~/.ssh/deploy_key 2>&1 | awk '{print $NF}')"
