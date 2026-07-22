@@ -53,8 +53,8 @@ jobs:
           REMOTE_TARGET: ${{ secrets.REMOTE_TARGET }}
         run: |
           mkdir -p ~/.ssh
-          # 写入私钥，强制使用 LF 换行（去除 Windows CRLF）
-          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          # 去除 Windows CRLF，换成 Unix LF，再写入文件
+          echo "$SSH_KEY" | sed 's/\r$//' > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
           # rsync 同步
           rsync -avz --delete \
