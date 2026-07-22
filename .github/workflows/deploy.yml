@@ -45,7 +45,7 @@ jobs:
         run: node node_modules/vitepress/bin/vitepress.js build
 
       - name: 上传到服务器
-        uses: easingthemes/ssh-deploy@v5
+        uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ secrets.SERVER_HOST }}
