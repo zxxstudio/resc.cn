@@ -1,0 +1,53 @@
+# 自动部署到华为云服务器
+# 触发：推送 main 分支，或手动点 Run workflow
+#
+# 需要在 GitHub 仓库 Settings -> Secrets and variables -> Actions 里配置以下密钥：
+#   SERVER_HOST    服务器公网 IP，例如 1.2.3.4
+#   SERVER_PORT    SSH 端口，一般是 22
+#   SERVER_USER    SSH 登录用户名，例如 root
+#   SERVER_SSH_KEY 私钥内容（用 ssh-keygen 生成，把公钥放到服务器，私钥填这里）
+#   SERVER_TARGET  服务器上网站根目录，例如 /www/wwwroot/resc.cn
+#
+# 工作流程：拉代码 -> 装依赖 -> 构建 -> 把 .vitepress/dist 上传到服务器
+
+name: Deploy to Server
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - name: 安装 Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: 安装依赖
+        run: pnpm install --no-frozen-lockfile
+
+      - name: 构建网站
+        run: node node_modules/vitepress/bin/vitepress.js build
+
+      - name: 上传到服务器
+        uses: easingthemes/ssh-deploy@v5
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+          SOURCE: ".vitepress/dist/"
+          TARGET: ${{ secrets.REMOTE_TARGET }}
+          ARGS: "-avzr --delete"
