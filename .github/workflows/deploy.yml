@@ -39,7 +39,11 @@ jobs:
           cache: pnpm
 
       - name: 安装依赖
-        run: pnpm install --no-frozen-lockfile
+        run: |
+          echo "@parcel/watcher
+          esbuild
+          vue-demi" | pnpm approve-builds --stdin
+          pnpm install --no-frozen-lockfile
 
       - name: 构建网站
         run: node node_modules/vitepress/bin/vitepress.js build
