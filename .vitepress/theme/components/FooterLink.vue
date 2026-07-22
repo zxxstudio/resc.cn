@@ -16,8 +16,9 @@
       >
         <i :class="`iconfont icon-${item.icon}`"></i>
       </a>
-      <div class="logo" title="返回顶部" @click="smoothScrolling">
-        <img :src="siteMeta.author.cover" alt="author" class="author" />
+      <div class="logo-center" title="返回顶部" @click="smoothScrolling">
+        <img :src="siteMeta.logo" alt="logo" class="logo-img" />
+        <span class="logo-text">{{ site.title }}</span>
       </div>
       <a
         v-for="(item, index) in socialLinkData.second"
@@ -28,6 +29,9 @@
       >
         <i :class="`iconfont icon-${item.icon}`"></i>
       </a>
+    </div>
+    <div class="footer-quote">
+      <p class="quote-text">{{ footerQuote }}</p>
     </div>
     <div class="footer-sitemap">
       <div v-for="(item, index) in footer.sitemap" :key="index" class="sitemap-item">
@@ -68,6 +72,15 @@ const socialLinkData = computed(() => {
   const secondHalf = footer.social.slice(halfLength);
   return { first: firstHalf, second: secondHalf };
 });
+
+// 随机展示一句标语
+const footerQuotes = [
+  "保持好奇，保持热爱",
+  "简单即美，少即是多",
+  "记录思考，分享成长",
+  "代码之外，生活之中",
+];
+const footerQuote = footerQuotes[Math.floor(Math.random() * footerQuotes.length)];
 </script>
 
 <style lang="scss" scoped>
@@ -128,20 +141,20 @@ const socialLinkData = computed(() => {
     justify-content: center;
     align-items: center;
     margin-top: 2rem;
+    gap: 2rem;
     .social-link {
       display: flex;
       justify-content: center;
       align-items: center;
-      width: 32px;
-      height: 32px;
-      margin: 1rem 26px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       background-color: var(--main-font-color);
       transition:
         transform 0.3s,
         background-color 0.3s;
       .iconfont {
-        font-size: 20px;
+        font-size: 22px;
         color: var(--main-card-background);
       }
       &:hover {
@@ -152,27 +165,65 @@ const socialLinkData = computed(() => {
         transform: scale(1);
       }
     }
-    .logo {
-      width: 60px;
-      height: 60px;
-      margin: 0 1rem;
-      transition: transform 0.3s;
+    .logo-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--main-card-background) 0%, var(--main-card-second-background) 100%);
+      border: 1px solid var(--main-card-border);
+      transition: all 0.3s ease;
       cursor: pointer;
-      img {
-        width: 100%;
-        height: 100%;
+      .logo-img {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        transition: transform 0.3s;
+      }
+      .logo-text {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--main-font-color);
+        letter-spacing: 2px;
       }
       &:hover {
-        transform: scale(1.2);
-      }
-      &:active {
-        transform: scale(1);
+        transform: translateY(-4px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        .logo-img {
+          transform: scale(1.05);
+        }
       }
     }
     @media (max-width: 768px) {
-      .logo {
-        display: none;
+      gap: 1rem;
+      .logo-center {
+        padding: 0.8rem 1.5rem;
+        .logo-img {
+          width: 60px;
+          height: 60px;
+        }
+        .logo-text {
+          font-size: 12px;
+        }
       }
+      .social-link {
+        width: 40px;
+        height: 40px;
+      }
+    }
+  }
+  .footer-quote {
+    width: 100%;
+    text-align: center;
+    margin: 1.5rem 0 1rem;
+    .quote-text {
+      font-size: 14px;
+      color: var(--main-font-second-color);
+      font-style: italic;
+      letter-spacing: 1px;
+      opacity: 0.8;
     }
   }
   .footer-sitemap {
@@ -184,31 +235,15 @@ const socialLinkData = computed(() => {
     margin: 1rem 0;
     .sitemap-item {
       display: flex;
-    flex-direction: column;
-    align-items: center;
+      flex-direction: column;
+      align-items: center;
       min-width: 120px;
       .title {
         display: inline-block;
         margin: 1rem 0;
         font-size: 16px;
         font-weight: bold;
-        // margin-left: 8px;
         color: var(--main-font-second-color);
-        &.friends {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          cursor: pointer;
-          .iconfont {
-            font-weight: normal;
-            margin-left: 6px;
-            color: var(--main-font-second-color);
-            transition: color 0.3s;
-            &:hover {
-              color: var(--main-color);
-            }
-          }
-        }
       }
       .links {
         display: flex;
