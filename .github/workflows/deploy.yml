@@ -38,9 +38,12 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      - name: 配置并安装依赖
+      - name: 安装依赖
         run: |
-          pnpm config set --location project --json onlyBuiltDependencies '["@parcel/watcher","esbuild","vue-demi"]'
+          # Write .npmrc to allow build scripts for native deps
+          echo 'onlyBuiltDependencies[]=@parcel/watcher' >> .npmrc
+          echo 'onlyBuiltDependencies[]=esbuild' >> .npmrc
+          echo 'onlyBuiltDependencies[]=vue-demi' >> .npmrc
           pnpm install --no-frozen-lockfile
 
       - name: 构建网站
