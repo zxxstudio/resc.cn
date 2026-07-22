@@ -3,12 +3,12 @@
 #
 # 需要在 GitHub 仓库 Settings -> Secrets and variables -> Actions 里配置以下密钥：
 #   SERVER_HOST     服务器公网 IP，例如 1.2.3.4
-#   REMOTE_PORT     SSH 端口，一般是 22
-#   REMOTE_USER     SSH 登录用户名，例如 root
-#   SSH_PRIVATE_KEY SSH 私钥内容（用 ssh-keygen 生成，把公钥放到服务器，私钥填这里）
+#   SERVER_PORT     SSH 端口，一般是 22
+#   SERVER_USER     SSH 登录用户名，例如 root
+#   SSH_PRIVATE_KEY SSH 私钥内容（用 ssh-keygen 生成 ed25519，把公钥放到服务器，私钥填这里）
 #   REMOTE_TARGET   服务器上网站根目录，例如 /www/wwwroot/resc.cn
 #
-# 工作流程：拉代码 -> 装依赖 -> 构建 -> 把 .vitepress/dist 上传到服务器
+# 工作流程：拉代码 -> 装依赖 -> 构建 -> rsync 同步到服务器
 
 name: Deploy to Server
 
@@ -44,13 +44,20 @@ jobs:
       - name: 构建网站
         run: node node_modules/vitepress/bin/vitepress.js build
 
-      - name: 上传到服务器
-        uses: easingthemes/ssh-deploy@main
-        with:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          REMOTE_HOST: ${{ secrets.SERVER_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
-          SOURCE: ".vitepress/dist/"
-          TARGET: ${{ secrets.REMOTE_TARGET }}
-          ARGS: "-avzr --delete"
+      - name: 上传网站到服务器
+        env:
+          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SERVER_HOST: ${{ secrets.SERVER_HOST }}
+          SERVER_PORT: ${{ secrets.SERVER_PORT }}
+          SERVER_USER: ${{ secrets.SERVER_USER }}
+          REMOTE_TARGET: ${{ secrets.REMOTE_TARGET }}
+        run: |
+          mkdir -p ~/.ssh
+          # 写入私钥，强制使用 LF 换行（去除 Windows CRLF）
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          # rsync 同步
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key -p $SERVER_PORT -o StrictHostKeyChecking=no" \
+            .vitepress/dist/ \
+            "$SERVER_USER@$SERVER_HOST:$REMOTE_TARGET"
