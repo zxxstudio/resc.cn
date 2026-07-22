@@ -3,12 +3,14 @@
 #
 # 需要在 GitHub 仓库 Settings -> Secrets and variables -> Actions 里配置以下密钥：
 #   SERVER_HOST     服务器公网 IP，例如 1.2.3.4
-#   SERVER_PORT     SSH 端口，一般是 22
-#   SERVER_USER     SSH 登录用户名，例如 root
-#   SSH_PRIVATE_KEY SSH 私钥内容（用 ssh-keygen 生成 ed25519，把公钥放到服务器，私钥填这里）
+#   SERVER_PORT     SSH 端口（默认 22，secret 可不填）
+#   SERVER_USER     SSH 用户名（默认 root，secret 可不填）
+#   SSH_PRIVATE_KEY SSH 私钥（base64 编码后的内容）
 #   REMOTE_TARGET   服务器上网站根目录，例如 /www/wwwroot/resc.cn
 #
-# 工作流程：拉代码 -> 装依赖 -> 构建 -> rsync 同步到服务器
+# 生成 base64 私钥（Windows PowerShell）：
+#   $b64 = [Convert]::ToBase64String([IO.File]::ReadAllBytes("path\to\your\id_ed25519"))
+#   $b64 | clip  # 复制到剪贴板
 
 name: Deploy to Server
 
@@ -53,14 +55,14 @@ jobs:
           REMOTE_TARGET: ${{ secrets.REMOTE_TARGET }}
         run: |
           mkdir -p ~/.ssh
-          # 写入私钥，去除所有 \r
-          printf '%s' "$SSH_KEY" | tr -d '\r' > ~/.ssh/deploy_key
+          # base64 解码还原私钥文件
+          echo "$SSH_KEY" | base64 -d > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          echo "key lines: $(wc -l < ~/.ssh/deploy_key)"
+          echo "key type: $(ssh-keygen -l -f ~/.ssh/deploy_key 2>&1 | awk '{print $NF}')"
           # 环境变量默认值
           PORT="${SERVER_PORT:-22}"
           USER="${SERVER_USER:-root}"
-          echo "PORT: $PORT, USER: $USER"
+          echo "Connecting to $USER@$SERVER_HOST:$PORT -> $REMOTE_TARGET"
           # SSH 测试
           ssh -o StrictHostKeyChecking=no \
             -o BatchMode=yes \
