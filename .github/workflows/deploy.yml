@@ -5,12 +5,9 @@
 #   SERVER_HOST     服务器公网 IP，例如 1.2.3.4
 #   SERVER_PORT     SSH 端口（默认 22，secret 可不填）
 #   SERVER_USER     SSH 用户名（默认 root，secret 可不填）
-#   SSH_PRIVATE_KEY SSH 私钥（base64 编码后的内容）
 #   REMOTE_TARGET   服务器上网站根目录，例如 /www/wwwroot/resc.cn
 #
-# 生成 base64 私钥（Windows PowerShell）：
-#   $b64 = [Convert]::ToBase64String([IO.File]::ReadAllBytes("path\to\your\id_ed25519"))
-#   $b64 | clip  # 复制到剪贴板
+# 私钥在 .github/deploy_key.b64（base64 编码），已加入 .gitignore，仅限 CI 使用
 
 name: Deploy to Server
 
@@ -47,30 +44,35 @@ jobs:
         run: node node_modules/vitepress/bin/vitepress.js build
 
       - name: 上传网站到服务器
-        env:
-          SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SERVER_HOST: ${{ secrets.SERVER_HOST }}
-          SERVER_PORT: ${{ secrets.SERVER_PORT }}
-          SERVER_USER: ${{ secrets.SERVER_USER }}
-          REMOTE_TARGET: ${{ secrets.REMOTE_TARGET }}
         run: |
           mkdir -p ~/.ssh
-          # base64 解码还原私钥文件
-          echo "$SSH_KEY" | base64 -d > ~/.ssh/deploy_key
+          # 从文件读取 base64 私钥，解码为原始文件
+          base64 -d .github/deploy_key.b64 > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
+          echo "key bytes: $(wc -c < ~/.ssh/deploy_key)"
           echo "key type: $(ssh-keygen -l -f ~/.ssh/deploy_key 2>&1 | awk '{print $NF}')"
-          # 环境变量默认值
+          PUB=$(ssh-keygen -y -f ~/.ssh/deploy_key 2>&1)
+          echo "pub key: $PUB"
+          FPRINT=$(ssh-keygen -lf ~/.ssh/deploy_key 2>&1 | awk '{print $2}')
+          echo "fingerprint: $FPRINT"
+
+          SERVER_HOST='${{ secrets.SERVER_HOST }}'
+          SERVER_PORT='${{ secrets.SERVER_PORT }}'
+          SERVER_USER='${{ secrets.SERVER_USER }}'
+          REMOTE_TARGET='${{ secrets.REMOTE_TARGET }}'
           PORT="${SERVER_PORT:-22}"
           USER="${SERVER_USER:-root}"
-          echo "Connecting to $USER@$SERVER_HOST:$PORT -> $REMOTE_TARGET"
+          echo "Deploying to $USER@$SERVER_HOST:$PORT -> $REMOTE_TARGET"
+
           # SSH 测试
           ssh -o StrictHostKeyChecking=no \
             -o BatchMode=yes \
-            -o ConnectTimeout=15 \
+            -o ConnectTimeout=20 \
             -i ~/.ssh/deploy_key \
             -p "$PORT" \
             "$USER@$SERVER_HOST" \
             "echo 'SSH OK'; ls $REMOTE_TARGET/index.html"
+
           # rsync 同步
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/deploy_key -p $PORT -o StrictHostKeyChecking=no -o BatchMode=yes" \

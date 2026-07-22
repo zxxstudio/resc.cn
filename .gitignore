@@ -37,3 +37,4 @@ test.html
 deploy_key
 deploy_key.pub
 genkey.bat
+.github/deploy_key.b64
