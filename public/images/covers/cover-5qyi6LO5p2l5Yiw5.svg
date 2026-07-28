@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <!-- 渐变背景 -->
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A90E2"/>
+      <stop offset="50%" style="stop-color:#7FB3D5"/>
+      <stop offset="100%" style="stop-color:#A9CCE3"/>
+    </linearGradient>
+    <!-- 文字阴影 -->
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.3)"/>
+    </filter>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="1200" height="630" fill="url(#bgGradient)"/>
+
+  <!-- 几何装饰 -->
+  <circle cx="710.5185396895208" cy="491.7385878093985" r="98.8325836429496" fill="#ffffff" opacity="0.15"/>
+    <circle cx="249.94019968224413" cy="38.28875776875488" r="148.78746696792984" fill="#ffffff" opacity="0.15"/>
+    <circle cx="684.9377928498843" cy="151.42426219502866" r="58.22647150429341" fill="#ffffff" opacity="0.15"/>
+    <circle cx="204.91162700468567" cy="393.8980649747824" r="111.0971610051028" fill="#ffffff" opacity="0.15"/>
+    <circle cx="11.469524849883683" cy="539.1989834341637" r="186.47802221938014" fill="#ffffff" opacity="0.15"/>
+    <rect x="916.0509023468403" y="398.6203957537106" width="109.96466710611696" height="159.70627976031233" fill="#ffffff" opacity="0.15" transform="rotate(28.88970795223994 971.0332358998987 478.4735356338668)"/>
+    <rect x="96.89612199697208" y="466.3231019222758" width="112.9509383132988" height="111.2536582664672" fill="#ffffff" opacity="0.15" transform="rotate(41.70701954793685 153.3715911536215 521.9499310555094)"/>
+    <rect x="1173.7934730722932" y="83.00431064811221" width="236.34251256828992" height="245.21191631264023" fill="#ffffff" opacity="0.15" transform="rotate(30.726660802770095 1291.964729356438 205.61026880443234)"/>
+    <line x1="0" y1="231.42855762167585" x2="1200" y2="324.726775112043" stroke="#ffffff" stroke-width="2" opacity="0.1"/>
+    <line x1="0" y1="238.85233462278777" x2="1200" y2="436.13548232843385" stroke="#ffffff" stroke-width="2" opacity="0.1"/>
+    <line x1="0" y1="284.13190982077265" x2="1200" y2="165.63431948363217" stroke="#ffffff" stroke-width="2" opacity="0.1"/>
+    <line x1="0" y1="217.45999776514734" x2="1200" y2="622.5551463050016" stroke="#ffffff" stroke-width="2" opacity="0.1"/>
+    <line x1="0" y1="236.40236425293332" x2="1200" y2="68.1398001793412" stroke="#ffffff" stroke-width="2" opacity="0.1"/>
+    <line x1="0" y1="435.3935111023446" x2="1200" y2="201.9153086682308" stroke="#ffffff" stroke-width="2" opacity="0.1"/>
+    <line x1="0" y1="2.059058743921387" x2="1200" y2="351.6620852967156" stroke="#ffffff" stroke-width="2" opacity="0.1"/>
+    <line x1="0" y1="264.83908954022576" x2="1200" y2="532.9304984190845" stroke="#ffffff" stroke-width="2" opacity="0.1"/>
+
+  <!-- 标题 -->
+  <g>
+      <text x="600" y="315" text-anchor="middle" dominant-baseline="middle"
+            font-family="Microsoft YaHei, PingFang SC, sans-serif" font-size="72" font-weight="bold"
+            fill="#ffffff" filter="url(#shadow)">
+        欢迎来到小性工作室
+      </text>
+  </g>
+
+  <!-- 底部装饰线 -->
+  <line x1="500" y1="395" x2="700" y2="395"
+        stroke="#ffffff" stroke-width="3" opacity="0.8"/>
+</svg>
