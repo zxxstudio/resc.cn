@@ -17,7 +17,8 @@
                     class="more-link"
                     target="_blank"
                   >
-                    <i v-if="link.iconFont" class="link-icon" :class="link.iconFont" />
+                    <span v-if="link.iconSvg" class="link-icon" v-html="link.iconSvg" />
+                    <i v-else-if="link.iconFont" class="link-icon" :class="link.iconFont" />
                     <img v-else class="link-icon" :src="link.icon" :alt="link.name" />
                     <span class="link-name">{{ link.name }}</span>
                   </a>
@@ -245,14 +246,20 @@ const { site, theme, frontmatter, page } = useData();
                 padding: 6px 8px;
                 border-radius: 8px;
                 .link-icon {
-                  width: 24px;
-                  height: 24px;
-                  border-radius: 50%;
+                  width: 22px;
+                  height: 22px;
                   margin-right: 8px;
                   font-size: 22px;
                   display: inline-flex;
                   align-items: center;
                   justify-content: center;
+                  color: inherit;
+                  flex-shrink: 0;
+                  svg {
+                    width: 100%;
+                    height: 100%;
+                    fill: currentColor;
+                  }
                 }
                 &:hover {
                   color: var(--main-card-background);

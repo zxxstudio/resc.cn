@@ -110,23 +110,23 @@ export const themeConfig = {
       ],
     ],
   },
-  // 左侧“更多”菜单（去掉原作者的导航/热榜/状态站）
+  // 左侧“更多”菜单（使用内联 SVG，避免依赖外部 iconfont 字体在亮色模式下不显示）
   navMore: [
     {
       name: "本站",
       list: [
-        { iconFont: "iconfont icon-style", name: "主页", url: "/" },
-        { iconFont: "iconfont icon-article", name: "文章归档", url: "/pages/archives" },
-        { iconFont: "iconfont icon-folder", name: "全部分类", url: "/pages/categories" },
-        { iconFont: "iconfont icon-hashtag", name: "全部标签", url: "/pages/tags" },
+        { name: "主页", url: "/", iconSvg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9.5L12 3l9 6.5V21H3z"/><path d="M9 21V12h6v9"/></svg>' },
+        { name: "文章归档", url: "/pages/archives", iconSvg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="4" rx="1"/><path d="M5 8v11a1 1 0 001 1h12a1 1 0 001-1V8"/><path d="M10 12h4"/></svg>' },
+        { name: "全部分类", url: "/pages/categories", iconSvg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V7z"/></svg>' },
+        { name: "全部标签", url: "/pages/tags", iconSvg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41L13.42 20.58a2 2 0 01-2.83 0L3 13V3h10l7.59 7.59a2 2 0 010 2.82z"/><circle cx="7.5" cy="7.5" r="1.2" fill="currentColor"/></svg>' },
       ],
     },
     {
       name: "页面",
       list: [
-        { iconFont: "iconfont icon-account", name: "关于本站", url: "/pages/about" },
-        { iconFont: "iconfont icon-people", name: "友情链接", url: "/pages/link" },
-        { iconFont: "iconfont icon-message", name: "畅所欲言", url: "/pages/message" },
+        { name: "关于本站", url: "/pages/about", iconSvg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0116 0"/></svg>' },
+        { name: "友情链接", url: "/pages/link", iconSvg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M3 20a6 6 0 0112 0"/><path d="M14 20a5 5 0 018-4.5"/></svg>' },
+        { name: "畅所欲言", url: "/pages/message", iconSvg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 01-11.2 7.32L3 21l1.68-6.8A8 8 0 1121 12z"/></svg>' },
       ],
     },
   ],
