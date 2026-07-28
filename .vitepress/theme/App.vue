@@ -36,6 +36,8 @@
   <RightMenu ref="rightMenuRef" />
   <!-- 全局消息 -->
   <Message />
+  <!-- 3D AI 宠物 -->
+  <Pet3D />
 </template>
 
 <script setup>
