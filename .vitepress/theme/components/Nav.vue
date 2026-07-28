@@ -17,7 +17,8 @@
                     class="more-link"
                     target="_blank"
                   >
-                    <img class="link-icon" :src="link.icon" :alt="link.name" />
+                    <i v-if="link.iconFont" class="link-icon" :class="link.iconFont" />
+                    <img v-else class="link-icon" :src="link.icon" :alt="link.name" />
                     <span class="link-name">{{ link.name }}</span>
                   </a>
                 </div>
@@ -248,6 +249,10 @@ const { site, theme, frontmatter, page } = useData();
                   height: 24px;
                   border-radius: 50%;
                   margin-right: 8px;
+                  font-size: 22px;
+                  display: inline-flex;
+                  align-items: center;
+                  justify-content: center;
                 }
                 &:hover {
                   color: var(--main-card-background);

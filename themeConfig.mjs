@@ -115,18 +115,18 @@ export const themeConfig = {
     {
       name: "本站",
       list: [
-        { icon: "/images/logo/logo.png", name: "主页", url: "/" },
-        { icon: "/images/logo/logo.png", name: "文章归档", url: "/pages/archives" },
-        { icon: "/images/logo/logo.png", name: "全部分类", url: "/pages/categories" },
-        { icon: "/images/logo/logo.png", name: "全部标签", url: "/pages/tags" },
+        { iconFont: "iconfont icon-style", name: "主页", url: "/" },
+        { iconFont: "iconfont icon-article", name: "文章归档", url: "/pages/archives" },
+        { iconFont: "iconfont icon-folder", name: "全部分类", url: "/pages/categories" },
+        { iconFont: "iconfont icon-hashtag", name: "全部标签", url: "/pages/tags" },
       ],
     },
     {
       name: "页面",
       list: [
-        { icon: "/images/logo/logo.png", name: "关于本站", url: "/pages/about" },
-        { icon: "/images/logo/logo.png", name: "友情链接", url: "/pages/link" },
-        { icon: "/images/logo/logo.png", name: "畅所欲言", url: "/pages/message" },
+        { iconFont: "iconfont icon-account", name: "关于本站", url: "/pages/about" },
+        { iconFont: "iconfont icon-people", name: "友情链接", url: "/pages/link" },
+        { iconFont: "iconfont icon-message", name: "畅所欲言", url: "/pages/message" },
       ],
     },
   ],
