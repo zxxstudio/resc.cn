@@ -135,7 +135,7 @@ export const themeConfig = {
     twoColumns: false,
     showCover: {
       enable: true,
-      coverLayout: "both",
+      coverLayout: "left",
       defaultCover: ["/images/logo/logo.png"],
     },
   },
