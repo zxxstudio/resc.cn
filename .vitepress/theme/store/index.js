@@ -6,17 +6,16 @@ export const mainStore = defineStore("main", {
       // 主题类别
       themeType: "auto",
       themeValue: "light",
+      // 按时间自动切浅深色
+      autoTimeSwitch: false,
       // banner
       bannerType: "half",
       // 加载状态
       loadingStatus: true,
       // 滚动高度
       scrollData: {
-        // 滚动高度
         height: 0,
-        // 滚动百分比
         percentage: 0,
-        // 滚动方向
         direction: "down",
       },
       // 页脚可见性
@@ -39,8 +38,6 @@ export const mainStore = defineStore("main", {
       mobileMenuShow: false,
       // 使用自定义右键菜单
       useRightMenu: true,
-      // 背景模糊
-      backgroundBlur: false,
       // 全站字体
       fontFamily: "hmos",
       // 全站字体大小
@@ -49,9 +46,6 @@ export const mainStore = defineStore("main", {
       infoPosition: "fixed",
       // 上次滚动位置
       lastScrollY: 0,
-      // 站点背景
-      backgroundType: "patterns",
-      backgroundUrl: "https://tuapi.eees.cc/api.php?category={dongman,fengjing}&type=302",
     };
   },
   getters: {},
@@ -59,35 +53,24 @@ export const mainStore = defineStore("main", {
     // 切换应用状态
     changeShowStatus(value, blur = true) {
       this[value] = !this[value];
-      // 阻止滚动
       document.body.style.overflowY = this[value] ? "hidden" : "";
-      // 全局模糊
-      const globalApp = document.getElementById("app");
-      this[value] && this.backgroundBlur && blur
-        ? globalApp.classList.add("blur")
-        : globalApp.classList.remove("blur");
     },
     // 更改字体大小
     changeFontSize(isAdd = false) {
       if (isAdd) {
-        if (this.fontSize < 20) {
-          this.fontSize++;
-        }
+        if (this.fontSize < 20) this.fontSize++;
       } else {
-        if (this.fontSize > 14) {
-          this.fontSize--;
-        }
+        if (this.fontSize > 14) this.fontSize--;
       }
-      const htmlElement = document.documentElement;
-      htmlElement.style.fontSize = this.fontSize + "px";
+      document.documentElement.style.fontSize = this.fontSize + "px";
     },
     // 切换明暗模式
     changeThemeType() {
-      // 禁止壁纸模式切换
-      if (this.backgroundType === "image") {
-        $message.warning("无法在壁纸模式下切换明暗模式", {
-          duration: 1500,
-        });
+      // 按时间自动切换模式下，不允许手动切换
+      if (this.autoTimeSwitch) {
+        if (typeof $message !== "undefined") {
+          $message.warning("按时间切换模式下，请先关闭自动切换", { duration: 1500 });
+        }
         return false;
       }
       this.themeType === "auto"
@@ -95,18 +78,18 @@ export const mainStore = defineStore("main", {
         : this.themeType === "dark"
           ? (this.themeType = "light")
           : (this.themeType = "auto");
-      // 弹窗提示
       if (typeof $message !== "undefined") {
         const text =
-          this.themeType === "light"
-            ? "浅色模式"
-            : this.themeType === "dark"
-              ? "深色模式"
-              : "跟随系统";
-        $message.info("当前主题为" + text, {
-          duration: 1500,
-        });
+          this.themeType === "light" ? "浅色模式"
+          : this.themeType === "dark" ? "深色模式"
+          : "跟随系统";
+        $message.info("当前主题为" + text, { duration: 1500 });
       }
+    },
+    // 根据当前时间获取应该的主题（白天浅，夜间深）
+    getTimeBasedTheme() {
+      const h = new Date().getHours();
+      return (h >= 18 || h < 6) ? "dark" : "light";
     },
   },
   // 数据持久化
@@ -115,16 +98,14 @@ export const mainStore = defineStore("main", {
       key: "siteData",
       paths: [
         "themeType",
+        "autoTimeSwitch",
         "bannerType",
         "useRightMenu",
         "playerShow",
         "playerVolume",
-        "backgroundBlur",
-        "backgroundType",
         "fontFamily",
         "fontSize",
         "infoPosition",
-        "backgroundUrl",
       ],
     },
   ],

@@ -45,35 +45,34 @@
           <span class="set-label">全站背景</span>
           <div class="set-options">
             <span
-              :class="['options', { choose: backgroundType === 'close' }]"
-              @click="backgroundType = 'close'"
+              :class="['options', { choose: themeType === 'light' }]"
+              @click="setTheme('light')"
             >
-              关闭
+              浅色背景
             </span>
             <span
-              :class="['options', { choose: backgroundType === 'patterns' }]"
-              @click="backgroundType = 'patterns'"
+              :class="['options', { choose: themeType === 'dark' }]"
+              @click="setTheme('dark')"
             >
-              纹理
+              深色背景
             </span>
             <span
-              :class="['options', { choose: backgroundType === 'image' }]"
-              @click="(backgroundType = 'image'), (themeType = 'dark')"
+              :class="['options', { choose: themeType === 'auto' }]"
+              @click="setTheme('auto')"
             >
-              图片
+              跟随系统
             </span>
           </div>
         </div>
-        <div v-if="backgroundType === 'image'" class="set-item">
-          <span class="set-label">背景图片地址</span>
+        <div class="set-item">
+          <span class="set-label">自动按时间切换</span>
           <div class="set-options">
-            <input
-              v-model="backgroundUrl"
-              type="url"
-              pattern="https?://.+"
-              title="请输入有效的网址，例如：http://www.example.com"
-              required
-            />
+            <span
+              :class="['options', { choose: autoTimeSwitch }]"
+              @click="toggleAutoTime()"
+            >
+              {{ autoTimeSwitch ? '已开启' : '已关闭' }}
+            </span>
           </div>
         </div>
         <span class="title">首页样式</span>
@@ -122,8 +121,24 @@ import { storeToRefs } from "pinia";
 import { mainStore } from "@/store";
 
 const store = mainStore();
-const { themeType, fontFamily, fontSize, infoPosition, backgroundType, backgroundUrl, bannerType } =
+const { themeType, fontFamily, fontSize, infoPosition, bannerType, autoTimeSwitch } =
   storeToRefs(store);
+
+// 切换浅/深/跟随系统，并自动关闭按时间切换
+const setTheme = (mode) => {
+  store.themeType = mode;
+  if (store.autoTimeSwitch) {
+    store.autoTimeSwitch = false;
+    if (typeof $message !== 'undefined') {
+      $message.info('已关闭按时间自动切换', { duration: 1500 });
+    }
+  }
+};
+
+// 切换"按时间自动切"开关
+const toggleAutoTime = () => {
+  store.autoTimeSwitch = !store.autoTimeSwitch;
+};
 </script>
 
 <style lang="scss" scoped>

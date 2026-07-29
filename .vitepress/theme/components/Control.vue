@@ -30,13 +30,6 @@
             >
               <i class="iconfont icon-music"></i>
             </div>
-            <div
-              :class="['menu-item', { open: store.backgroundBlur }]"
-              title="背景模糊开关"
-              @click.stop="store.changeShowStatus('backgroundBlur')"
-            >
-              <i class="iconfont icon-blur"></i>
-            </div>
           </div>
         </div>
       </div>

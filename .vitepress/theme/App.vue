@@ -48,7 +48,7 @@ import { calculateScroll, specialDayGray } from "@/utils/helper";
 const route = useRoute();
 const store = mainStore();
 const { frontmatter, page, theme } = useData();
-const { loadingStatus, footerIsShow, themeValue, themeType, backgroundType, fontFamily, fontSize } =
+const { loadingStatus, footerIsShow, themeValue, themeType, autoTimeSwitch, fontFamily, fontSize } =
   storeToRefs(store);
 
 // 右键菜单
@@ -100,11 +100,8 @@ const changeSiteThemeType = () => {
     htmlElement.classList.add(themeClasses[themeType.value]);
     themeValue.value = themeClasses[themeType.value];
   }
-  if (backgroundType.value === "image") {
-    htmlElement.classList.add("image");
-  } else {
-    htmlElement.classList.remove("image");
-  }
+  // 移除可能残留的 image 类（保留兼容）
+  htmlElement.classList.remove("image");
 };
 
 // 切换系统字体样式
@@ -121,7 +118,7 @@ const changeSiteFont = () => {
 
 // 监听设置变化
 watch(
-  () => [themeType.value, backgroundType.value],
+  () => [themeType.value, autoTimeSwitch.value],
   () => changeSiteThemeType(),
 );
 watch(
@@ -129,10 +126,37 @@ watch(
   () => changeSiteFont(),
 );
 
+// 按时间自动切换：每分钟检查一次
+let autoTimeInterval = null;
+const startAutoTimeCheck = () => {
+  if (autoTimeInterval) clearInterval(autoTimeInterval);
+  if (!autoTimeSwitch.value) return;
+  autoTimeInterval = setInterval(() => {
+    themeType.value = store.getTimeBasedTheme();
+  }, 60 * 1000);
+};
+
 onMounted(() => {
   console.log(frontmatter.value, page.value, theme.value);
   // 全站置灰
   specialDayGray();
+  // 清理过期的旧 store 字段（背景相关已废弃）
+  try {
+    const raw = localStorage.getItem("siteData");
+    if (raw) {
+      const obj = JSON.parse(raw);
+      delete obj.backgroundType;
+      delete obj.backgroundUrl;
+      delete obj.backgroundBlur;
+      localStorage.setItem("siteData", JSON.stringify(obj));
+    }
+  } catch (e) { /* noop */ }
+  // 启用按时间切换时立即计算一次
+  if (autoTimeSwitch.value) {
+    themeType.value = store.getTimeBasedTheme();
+  }
+  // 启动定时检查
+  startAutoTimeCheck();
   // 更改主题类别
   changeSiteThemeType();
   // 切换系统字体样式
@@ -145,11 +169,14 @@ onMounted(() => {
   window.addEventListener("copy", copyTip);
   // 监听系统颜色
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", changeSiteThemeType);
+  // 监听 autoTimeSwitch 变化，启停定时器
+  watch(autoTimeSwitch, () => startAutoTimeCheck());
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener("scroll", calculateScroll);
   window.removeEventListener("contextmenu", openRightMenu);
+  if (autoTimeInterval) clearInterval(autoTimeInterval);
 });
 </script>
 
