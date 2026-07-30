@@ -1,4 +1,4 @@
-<!-- 页脚 - 链接（居中紧凑版，参考图2风格） -->
+<!-- 页脚 - 链接（居中紧凑版） -->
 <template>
   <div class="footer-link">
     <div class="footer-social">
@@ -37,6 +37,7 @@
         <i v-if="item.iconSvg" class="social-svg" v-html="item.iconSvg" />
         <i v-else :class="`iconfont icon-${item.icon}`"></i>
       </button>
+      <span class="social-divider" aria-hidden="true" />
     </div>
     <nav class="footer-nav">
       <a
@@ -171,38 +172,54 @@ const flatLinks = computed(() => {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
-    .social-link,
-    .social-qrcode-btn {
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      color: var(--main-font-second-color);
-      background: transparent;
-      border: none;
-      padding: 0;
-      transition: color 0.3s, transform 0.3s;
-      cursor: pointer;
-      .iconfont,
-      .social-svg {
-        font-size: 28px;
-        width: 28px;
-        height: 28px;
-        line-height: 1;
-      }
-      .social-svg :deep(svg) {
-        width: 28px;
-        height: 28px;
-        fill: currentColor;
-      }
-      &:hover {
-        color: var(--main-color);
-        transform: scale(1.1);
-      }
-    }
+    gap: 0.85rem;
+  }
+
+  .social-link,
+  .social-qrcode-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    color: var(--main-font-second-color);
+    background: var(--main-color-bg);
+    border: 1px solid transparent;
+    padding: 0;
+    transition: color 0.3s, background-color 0.3s, transform 0.3s, border-color 0.3s;
+    cursor: pointer;
+  }
+
+  .social-link:hover,
+  .social-qrcode-btn:hover {
+    color: var(--main-color);
+    background: var(--main-color-bg-hover, var(--main-color-bg));
+    border-color: var(--main-color);
+    transform: scale(1.08);
+  }
+
+  .iconfont,
+  .social-svg {
+    font-size: 28px;
+    width: 28px;
+    height: 28px;
+    line-height: 1;
+  }
+
+  .social-svg :deep(svg) {
+    width: 28px;
+    height: 28px;
+    fill: currentColor;
+  }
+
+  .social-divider {
+    display: inline-block;
+    width: 1px;
+    height: 24px;
+    margin: 0 0.25rem;
+    background: var(--main-border-color, #e5e7eb);
+    opacity: 0.5;
   }
 
   @media (max-width: 640px) {
@@ -265,9 +282,9 @@ const flatLinks = computed(() => {
     border-radius: 999px;
     cursor: pointer;
     font-size: 13px;
-    &:hover {
-      filter: brightness(1.08);
-    }
+  }
+  .qr-close:hover {
+    filter: brightness(1.08);
   }
 }
 :global(.copy-toast) {
