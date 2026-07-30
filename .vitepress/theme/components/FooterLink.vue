@@ -37,7 +37,6 @@
         <i v-if="item.iconSvg" class="social-svg" v-html="item.iconSvg" />
         <i v-else :class="`iconfont icon-${item.icon}`"></i>
       </button>
-      <span class="social-divider" aria-hidden="true" />
     </div>
     <nav class="footer-nav">
       <a
@@ -182,21 +181,23 @@ const flatLinks = computed(() => {
     align-items: center;
     width: 42px;
     height: 42px;
-    border-radius: 50%;
-    color: var(--main-font-second-color);
-    background: var(--main-color-bg);
-    border: 1px solid transparent;
+    border-radius: 0;
+    color: var(--main-color);
+    background: transparent;
+    border: none;
     padding: 0;
-    transition: color 0.3s, background-color 0.3s, transform 0.3s, border-color 0.3s;
+    transition: color 0.3s, transform 0.3s, opacity 0.3s;
     cursor: pointer;
+    opacity: 0.85;
   }
 
   .social-link:hover,
   .social-qrcode-btn:hover {
     color: var(--main-color);
-    background: var(--main-color-bg-hover, var(--main-color-bg));
-    border-color: var(--main-color);
-    transform: scale(1.08);
+    background: transparent;
+    border: none;
+    transform: scale(1.12);
+    opacity: 1;
   }
 
   .iconfont,
@@ -211,15 +212,6 @@ const flatLinks = computed(() => {
     width: 28px;
     height: 28px;
     fill: currentColor;
-  }
-
-  .social-divider {
-    display: inline-block;
-    width: 1px;
-    height: 24px;
-    margin: 0 0.25rem;
-    background: var(--main-border-color, #e5e7eb);
-    opacity: 0.5;
   }
 
   @media (max-width: 640px) {
