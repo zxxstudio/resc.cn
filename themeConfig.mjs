@@ -144,7 +144,7 @@ export const themeConfig = {
     social: [
       { icon: "github", link: "https://github.com/zxxstudio/" },
       { icon: "qq", link: "https://wpa.qq.com/msgrd?v=3&uin=871282523&site=qq&menu=yes", title: "QQ" },
-      { icon: "wechat-pay", link: "/images/qrcode/wechat-mp.jpg", isQRCode: true, title: "微信公众号", subtitle: "扫码关注「小性工作室」", iconSvg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>' },
+      { icon: "wechat-pay", link: "/images/qrcode/wechat-mp.jpg", isQRCode: true, title: "微信公众号", subtitle: "扫码关注「小性工作室」", iconSvg: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 4C5 4 2.5 6.2 2.5 9c0 1.5.8 2.8 2 3.7L4 14.5l2-1c.7.2 1.5.4 2.3.4"/><path d="M15.5 11C12.8 11 10.5 12.7 10.5 14.8c0 1.2.6 2.2 1.6 2.9l-.4 1.4 1.5-.8c.5.1 1 .2 1.5.2 2.7 0 5-1.7 5-3.8S18.2 11 15.5 11z"/><circle cx="6.5" cy="8.2" r="0.7" fill="currentColor" stroke="none"/><circle cx="10.5" cy="8.2" r="0.7" fill="currentColor" stroke="none"/><circle cx="13.5" cy="14.3" r="0.6" fill="currentColor" stroke="none"/><circle cx="17.5" cy="14.3" r="0.6" fill="currentColor" stroke="none"/></svg>' },
       { icon: "bilibili", link: "https://b23.tv/67lJluC" },
       { icon: "email", link: "mailto:hello@resc.cn" },
     ],
