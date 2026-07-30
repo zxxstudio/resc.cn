@@ -227,8 +227,16 @@ const flatLinks = computed(() => {
   }
 }
 
-// 二维码弹窗（Teleport 到 body，要用 :global 或不带 scoped）
-:global(.qr-modal-mask) {
+// 二维码弹窗样式放在下方独立 <style> 块（Teleport 到 body 需全局样式）
+.qr-placeholder {
+  width: 180px;
+  height: 180px;
+}
+</style>
+
+<!-- 二维码弹窗全局样式（Teleport 到 body 必须用全局） -->
+<style lang="scss">
+.qr-modal-mask {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.55);
@@ -238,7 +246,7 @@ const flatLinks = computed(() => {
   z-index: 9999;
   backdrop-filter: blur(4px);
 }
-:global(.qr-modal) {
+.qr-modal {
   position: relative;
   background: var(--card-color, #fff);
   border-radius: 14px;
@@ -251,59 +259,59 @@ const flatLinks = computed(() => {
   max-width: 90vw;
   max-height: 90vh;
   box-shadow: 0 16px 48px rgba(0, 0, 0, 0.22);
-  .qr-img-wrap {
-    width: 180px;
-    height: 180px;
-    background: #fff;
-    border-radius: 8px;
-    padding: 6px;
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
-    flex-shrink: 0;
-    img {
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-    }
-  }
-  .qr-tip {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--main-font-color, #333);
-    margin: 4px 0 0;
-    text-align: center;
-  }
-  .qr-sub {
-    font-size: 12px;
-    color: var(--main-font-second-color, #888);
-    margin: 0;
-    text-align: center;
-  }
-  .qr-close-btn {
-    position: absolute;
-    top: 6px;
-    right: 8px;
-    width: 28px;
-    height: 28px;
-    border: none;
-    background: transparent;
-    color: var(--main-font-second-color, #888);
-    font-size: 22px;
-    line-height: 1;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: background-color 0.2s, color 0.2s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-  }
-  .qr-close-btn:hover {
-    background: rgba(0, 0, 0, 0.06);
-    color: var(--main-font-color, #333);
-  }
 }
-:global(.copy-toast) {
+.qr-modal .qr-img-wrap {
+  width: 180px;
+  height: 180px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 6px;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+  flex-shrink: 0;
+}
+.qr-modal .qr-img-wrap img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.qr-modal .qr-tip {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--main-font-color, #333);
+  margin: 4px 0 0;
+  text-align: center;
+}
+.qr-modal .qr-sub {
+  font-size: 12px;
+  color: var(--main-font-second-color, #888);
+  margin: 0;
+  text-align: center;
+}
+.qr-modal .qr-close-btn {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: var(--main-font-second-color, #888);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.2s, color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+.qr-modal .qr-close-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--main-font-color, #333);
+}
+.copy-toast {
   position: fixed;
   top: 30%;
   left: 50%;
@@ -318,12 +326,12 @@ const flatLinks = computed(() => {
   max-width: 90vw;
   text-align: center;
 }
-:global(.fade-enter-active),
-:global(.fade-leave-active) {
+.fade-enter-active,
+.fade-leave-active {
   transition: opacity 0.2s;
 }
-:global(.fade-enter-from),
-:global(.fade-leave-to) {
+.fade-enter-from,
+.fade-leave-to {
   opacity: 0;
 }
 </style>
