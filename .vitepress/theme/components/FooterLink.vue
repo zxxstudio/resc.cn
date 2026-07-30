@@ -184,7 +184,7 @@ const flatLinks = computed(() => {
     width: 42px;
     height: 42px;
     border-radius: 0;
-    color: var(--main-color);
+    color: var(--main-font-second-color, #888);
     background: transparent;
     border: none;
     padding: 0;
@@ -333,5 +333,13 @@ const flatLinks = computed(() => {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+/* v-html 注入的 SVG 不走 scoped，必须全局强制填充色跟随文字色 */
+.social-svg svg,
+i.social-svg svg {
+  width: 28px;
+  height: 28px;
+  fill: currentColor !important;
+  stroke: currentColor;
 }
 </style>
