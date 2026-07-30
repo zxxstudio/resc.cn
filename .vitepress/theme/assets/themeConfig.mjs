@@ -255,7 +255,7 @@ export const themeConfig = {
       },
       {
         icon: "qq",
-        link: "https://res.abeim.cn/api/qq/?qq=1539250352",
+        link: "https://wpa.qq.com/msgrd?v=3&uin=871282523&site=qq&menu=yes",
       },
       {
         icon: "twitter-x",

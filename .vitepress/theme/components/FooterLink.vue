@@ -55,10 +55,12 @@
       <transition name="fade">
         <div v-if="showQR" class="qr-modal-mask" @click="showQR = false">
           <div class="qr-modal" @click.stop>
-            <img :src="qrInfo.image" :alt="qrInfo.title" />
+            <button class="qr-close-btn" aria-label="关闭" @click="showQR = false">×</button>
+            <div class="qr-img-wrap">
+              <img :src="qrInfo.image" :alt="qrInfo.title" />
+            </div>
             <p class="qr-tip">{{ qrInfo.title }}</p>
             <p v-if="qrInfo.subtitle" class="qr-sub">{{ qrInfo.subtitle }}</p>
-            <button class="qr-close" @click="showQR = false">关闭</button>
           </div>
         </div>
       </transition>
@@ -237,46 +239,68 @@ const flatLinks = computed(() => {
   backdrop-filter: blur(4px);
 }
 :global(.qr-modal) {
+  position: relative;
   background: var(--card-color, #fff);
-  border-radius: 16px;
-  padding: 24px 28px;
+  border-radius: 14px;
+  padding: 18px 20px 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  max-width: 320px;
-  width: 90%;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
-  img {
-    width: 240px;
-    height: 240px;
-    border-radius: 8px;
+  gap: 8px;
+  width: fit-content;
+  max-width: 90vw;
+  max-height: 90vh;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.22);
+  .qr-img-wrap {
+    width: 180px;
+    height: 180px;
     background: #fff;
-    padding: 8px;
+    border-radius: 8px;
+    padding: 6px;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.06);
+    flex-shrink: 0;
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
   }
   .qr-tip {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--main-font-color, #333);
     margin: 4px 0 0;
+    text-align: center;
   }
   .qr-sub {
-    font-size: 13px;
+    font-size: 12px;
     color: var(--main-font-second-color, #888);
     margin: 0;
+    text-align: center;
   }
-  .qr-close {
-    margin-top: 8px;
-    padding: 6px 18px;
+  .qr-close-btn {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
     border: none;
-    background: var(--main-color, #89cff0);
-    color: #fff;
-    border-radius: 999px;
+    background: transparent;
+    color: var(--main-font-second-color, #888);
+    font-size: 22px;
+    line-height: 1;
     cursor: pointer;
-    font-size: 13px;
+    border-radius: 50%;
+    transition: background-color 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
   }
-  .qr-close:hover {
-    filter: brightness(1.08);
+  .qr-close-btn:hover {
+    background: rgba(0, 0, 0, 0.06);
+    color: var(--main-font-color, #333);
   }
 }
 :global(.copy-toast) {
