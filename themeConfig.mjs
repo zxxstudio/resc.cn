@@ -144,6 +144,9 @@ export const themeConfig = {
     social: [
       { icon: "email", link: "mailto:hello@resc.cn" },
       { icon: "github", link: "https://github.com/zxxstudio/" },
+      { icon: "qq", link: "tencent://message/?uin=871282523&Site=&Menu=yes" },
+      { icon: "bilibili", link: "https://b23.tv/67lJluC" },
+      { icon: "wechat-pay", link: "/images/qrcode/wechat-mp.svg", isQRCode: true, title: "微信公众号", subtitle: "扫码关注「小性工作室」" },
     ],
     sitemap: [
       {
