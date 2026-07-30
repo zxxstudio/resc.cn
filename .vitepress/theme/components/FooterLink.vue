@@ -10,7 +10,8 @@
         class="social-link"
         :title="item.title || item.link"
       >
-        <i :class="`iconfont icon-${item.icon}`"></i>
+        <i v-if="item.iconSvg" class="social-svg" v-html="item.iconSvg" />
+        <i v-else :class="`iconfont icon-${item.icon}`"></i>
       </a>
       <!-- 微信/公众号：点击弹出二维码 -->
       <button
@@ -21,7 +22,8 @@
         :title="item.title || '扫码关注'"
         @click.stop="openQR(item)"
       >
-        <i :class="`iconfont icon-${item.icon}`"></i>
+        <i v-if="item.iconSvg" class="social-svg" v-html="item.iconSvg" />
+        <i v-else :class="`iconfont icon-${item.icon}`"></i>
       </button>
       <!-- QQ：点击弹出号码提示 -->
       <button
@@ -32,7 +34,8 @@
         :title="item.title || '复制'"
         @click.stop="copyText(item.copy, item.title)"
       >
-        <i :class="`iconfont icon-${item.icon}`"></i>
+        <i v-if="item.iconSvg" class="social-svg" v-html="item.iconSvg" />
+        <i v-else :class="`iconfont icon-${item.icon}`"></i>
       </button>
     </div>
     <nav class="footer-nav">
@@ -183,8 +186,17 @@ const flatLinks = computed(() => {
       padding: 0;
       transition: color 0.3s, transform 0.3s;
       cursor: pointer;
-      .iconfont {
+      .iconfont,
+      .social-svg {
         font-size: 28px;
+        width: 28px;
+        height: 28px;
+        line-height: 1;
+      }
+      .social-svg :deep(svg) {
+        width: 28px;
+        height: 28px;
+        fill: currentColor;
       }
       &:hover {
         color: var(--main-color);
