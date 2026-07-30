@@ -1,4 +1,4 @@
-<!-- 页脚 - 链接（居中紧凑版） -->
+<!-- 页脚 - 链接（居中紧凑版） - cache bust 2026-07-30 -->
 <template>
   <div class="footer-link">
     <div class="footer-social">

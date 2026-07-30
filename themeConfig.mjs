@@ -1,6 +1,6 @@
 // 小性工作室 - 个性化主题配置
 export const themeConfig = {
-  // 站点信息
+  // 站点信息 - cache bust 2026-07-30
   siteMeta: {
     title: "小性工作室",
     description: "小性工作室 · 张小性的个人作品与随笔",
