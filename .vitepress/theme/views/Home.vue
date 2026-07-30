@@ -1,7 +1,7 @@
 <!-- 首页 -->
 <template>
   <div class="home">
-    <Banner v-if="showHeader" :height="store.bannerType" />
+    <Banner :height="store.bannerType || 'half'" />
     <div class="home-content">
       <div class="posts-content">
         <!-- 分类总览 -->
