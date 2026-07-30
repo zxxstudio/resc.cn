@@ -143,7 +143,7 @@ export const themeConfig = {
   footer: {
     social: [
       { icon: "github", link: "https://github.com/zxxstudio/" },
-      { icon: "qq", link: "tencent://message/?uin=871282523&Site=&Menu=yes", isCopy: true, copy: "871282523", title: "QQ" },
+      { icon: "qq", link: "https://wpa.qq.com/msgrd?v=3&uin=871282523&site=qq&menu=yes", title: "QQ" },
       { icon: "wechat-pay", link: "/images/qrcode/wechat-mp.jpg", isQRCode: true, title: "微信公众号", subtitle: "扫码关注「小性工作室」", iconSvg: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.5 4C5.36 4 2 6.69 2 10c0 1.85 1.03 3.5 2.65 4.6L4 17l2.85-1.45c.78.18 1.6.3 2.45.32-.05-.27-.08-.55-.08-.84 0-2.94 2.86-5.32 6.39-5.32.18 0 .35.01.52.03C15.41 6.74 12.74 4 9.5 4zm-2 4.5a1 1 0 110 2 1 1 0 010-2zm4 0a1 1 0 110 2 1 1 0 010-2zM15.5 11c-3.04 0-5.5 1.92-5.5 4.28 0 2.36 2.46 4.28 5.5 4.28.55 0 1.08-.06 1.58-.18L19 20.5l-.45-1.7c1.36-.93 2.25-2.32 2.25-3.91C20.8 12.92 18.54 11 15.5 11zm-1.5 3.5a.75.75 0 110 1.5.75.75 0 010-1.5zm3 0a.75.75 0 110 1.5.75.75 0 010-1.5z"/></svg>' },
       { icon: "bilibili", link: "https://b23.tv/67lJluC" },
       { icon: "email", link: "mailto:hello@resc.cn" },
