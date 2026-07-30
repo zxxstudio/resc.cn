@@ -4,7 +4,7 @@ tags: [折腾, VitePress, Vue]
 categories: [技术]
 date: 2026-07-29
 description: 把网站背景功能简化，新增按时间自动切换浅色/深色主题的功能，18:00 自动变深色，06:00 自动回浅色
-cover: /images/covers/cover-2026-07-29.svg
+cover: /images/covers/cover-2026-07-29-hero.png
 articleGPT: 记录了对网站背景系统的重构：删除纹理/图片切换功能，改为纯色背景，新增按当地时间自动切换浅深色主题的完整过程
 references:
   - title: VitePress
@@ -24,6 +24,8 @@ references:
 
 所以决定：**全部砍掉，换成更实用的自动换肤**。
 
+![日夜切换效果对比](/images/covers/cover-2026-07-29-hero.png)
+
 ## 目标
 
 砍掉三个按钮（关闭/纹理/图片），换成两个：
@@ -38,7 +40,13 @@ references:
 
 ## 技术实现
 
-### 1. Store 层
+### 1. 自动切换原理
+
+每分钟检查一次当前时间，决定用哪种背景。整个逻辑用一个时钟视角来理解：
+
+![自动切换逻辑图解](/images/covers/cover-2026-07-29-clock.png)
+
+### 2. Store 层
 
 用 Pinia 管理状态，删掉旧字段，保留核心：
 
@@ -56,7 +64,7 @@ actions: {
 }
 ```
 
-### 2. 自动定时检查
+### 3. 自动定时检查
 
 每分钟检查一次时间，决定是否切换：
 
@@ -76,31 +84,15 @@ onMounted(() => {
 })
 ```
 
-### 3. UI 简化
+### 4. UI 简化
 
 Settings.vue 里，原来三个按钮变成两个 + 一个开关：
 
-```vue
-<!-- 浅/深色选择 -->
-<div class="theme-buttons">
-  <button :class="{ active: themeType === 'light' }" @click="setTheme('light')">
-    🌤️ 浅色
-  </button>
-  <button :class="{ active: themeType === 'dark' }" @click="setTheme('dark')">
-    🌙 深色
-  </button>
-</div>
-
-<!-- 自动切换开关 -->
-<label class="auto-switch">
-  <input type="checkbox" v-model="autoTimeSwitch" />
-  <span>自动按时间切换</span>
-</label>
-```
+![新 UI 设计：浅/深色选择 + 自动切换开关](/images/covers/cover-2026-07-29-ui.png)
 
 开启自动切换时，浅/深按钮显示"已关闭"提示，告诉你别手动调了。
 
-### 4. 背景组件简化
+### 5. 背景组件简化
 
 Background.vue 从原来复杂的图片加载+纹理+错误处理，简化为：
 
@@ -120,19 +112,19 @@ body {
 }
 ```
 
-### 5. localStorage 清理
+### 6. localStorage 清理
 
 用户之前保存的旧字段（`backgroundType`、`backgroundUrl`、`backgroundBlur`）在下次访问时自动清除，不污染新系统：
 
 ```javascript
 try {
-  const raw = localStorage.getItem('siteData')
+  const raw = localStorage.getItem("siteData")
   if (raw) {
     const obj = JSON.parse(raw)
     delete obj.backgroundType
     delete obj.backgroundUrl
     delete obj.backgroundBlur
-    localStorage.setItem('siteData', JSON.stringify(obj))
+    localStorage.setItem("siteData", JSON.stringify(obj))
   }
 } catch (e) { /* noop */ }
 ```
