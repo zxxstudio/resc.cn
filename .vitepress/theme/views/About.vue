@@ -93,9 +93,9 @@
 
 <style lang="scss" scoped>
 .about {
-  max-width: 920px;
-  margin: 0 auto;
-  padding: 0 1rem 4rem;
+  max-width: 100%;
+  margin: 0;
+  padding: 0 2rem 4rem;
 
   .title {
     font-size: 2.4rem;
@@ -157,6 +157,10 @@
     > .card {
       margin-bottom: 0;
     }
+  }
+
+  @media (max-width: 720px) {
+    padding: 0 1rem 4rem;
   }
 
   .contact {
