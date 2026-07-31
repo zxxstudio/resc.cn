@@ -39,3 +39,4 @@ deploy_key.pub
 genkey.bat
 .github/deploy_key.b64
 deploy_key.b64
+gen_cover.py
