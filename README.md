@@ -43,19 +43,15 @@
 
 ## 📸 预览
 
-<p align="center">
-  <img src="public/images/covers/cover-2026-07-30-hero.png" width="400" alt="首页预览">
-  <img src="public/images/covers/cover-2026-07-29-ui.png" width="400" alt="界面预览">
-</p>
-<p align="center">
-  <img src="public/images/covers/cover-2026-07-28-pet-interact.png" width="400" alt="团团互动">
-  <img src="public/images/covers/cover-2026-07-28-pet-process.png" width="400" alt="团团设计">
-</p>
-<p align="center">
-  <img src="public/images/covers/cover-2026-07-29-clock.png" width="400" alt="倒计时组件">
-  <img src="public/images/covers/cover-2026-07-30-palette.png" width="400" alt="配色方案">
-</p>
+> 以下为 resc.cn 线上真实页面截图。
 
+<p align="center">
+  <img src="public/images/previews/desktop-home.png" width="400" alt="首页（桌面端）">
+  <img src="public/images/previews/desktop-post.png" width="400" alt="文章页（桌面端）">
+</p>
+<p align="center">
+  <img src="public/images/previews/mobile-home.png" width="220" alt="首页（移动端）">
+</p>
 ## 🧱 技术栈
 
 | 类别 | 技术 |
