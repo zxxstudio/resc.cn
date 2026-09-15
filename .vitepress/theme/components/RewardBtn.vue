@@ -106,29 +106,47 @@ const toRewardList = () => {
   }
   .qr {
     display: grid;
-    gap: 1rem;
+    gap: 1.2rem;
     grid-template-columns: 1fr 1fr;
     .qr-img {
       display: flex;
       flex-direction: column;
       align-items: center;
+      padding: 0.9rem;
+      background: var(--main-card-background, #fff);
+      border: 1px solid var(--main-card-border, #ececec);
+      border-radius: 16px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+      transition: transform 0.2s, box-shadow 0.2s;
       img {
         width: 100%;
-        height: auto;
-        border-radius: 16px;
-        overflow: hidden;
+        max-width: 160px;
+        aspect-ratio: 1 / 1;
+        object-fit: contain;
+        background: #fff;
+        border-radius: 10px;
+        padding: 6px;
       }
       .tip {
-        display: flex;
-        flex-direction: row;
+        display: inline-flex;
         align-items: center;
+        justify-content: center;
         margin-top: 0.8rem;
+        padding: 0.3rem 0.9rem;
+        border-radius: 999px;
+        background: var(--main-color-light, #eef3ff);
+        color: var(--main-color, #409eff);
+        font-size: 0.85rem;
+        font-weight: 500;
+        white-space: nowrap;
         .iconfont {
           margin-right: 6px;
           font-size: 18px;
         }
       }
       &:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
         .iconfont {
           color: var(--main-color);
         }
