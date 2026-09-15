@@ -71,13 +71,18 @@ const markdownConfig = (md, themeConfig) => {
   md.renderer.rules.image = (tokens, idx) => {
     const token = tokens[idx];
     const src = token.attrs[token.attrIndex("src")][1];
-    const alt = token.content;
+    const rawAlt = token.content || "";
+    // 跳过“文件名”形式的 alt（如 IMG_3064、xxx.jpeg），避免正文下方显示难看的图片文件名
+    const looksLikeFile =
+      /^[\w-]*\.(jpe?g|png|gif|webp|bmp|svg)$/i.test(rawAlt.trim()) ||
+      /^img_?\d+$/i.test(rawAlt.trim());
+    const alt = looksLikeFile ? "" : rawAlt.trim();
     if (!themeConfig.fancybox.enable) {
       return `<img src="${src}" alt="${alt}" loading="lazy">`;
     }
     return `<a class="img-fancybox" href="${src}" data-fancybox="gallery" data-caption="${alt}">
                 <img class="post-img" src="${src}" alt="${alt}" loading="lazy" />
-                <span class="post-img-tip">${alt}</span>
+                ${alt ? `<span class="post-img-tip">${alt}</span>` : ""}
               </a>`;
   };
   
