@@ -137,7 +137,9 @@ export const jumpRedirect = (html, themeConfig, isDom = false) => {
         const $a = $(el);
         const href = $a.attr("href");
         const classesStr = $a.attr("class");
-        const innerText = $a.text();
+        // 保留 <a> 内部原本的 HTML（图标、label/value 的 span 等），只替换 href
+        // 之前这里是 $a.text()，会把内部标签拍平成纯文本，导致卡片里 label/value 错行不对齐
+        const innerHTML = $a.html() ?? "";
         // 检查是否包含排除的类
         const classes = classesStr ? classesStr.trim().split(" ") : [];
         if (excludeClass.some((className) => classes.includes(className))) {
@@ -157,7 +159,7 @@ export const jumpRedirect = (html, themeConfig, isDom = false) => {
             }
           }
           // 构造新标签
-          const newLink = `<a href="${redirectPage}?url=${encodedHref}" original-href="${href}" ${attributesStr}>${innerText}</a>`;
+          const newLink = `<a href="${redirectPage}?url=${encodedHref}" original-href="${href}" ${attributesStr}>${innerHTML}</a>`;
           // 替换原有标签
           $a.replaceWith(newLink);
         }
