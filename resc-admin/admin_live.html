@@ -1,0 +1,1645 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>resc.cn 站点设置</title>
+<style>
+:root{--main:#667eea;--main2:#764ba2;--bg:#f5f6fa;--border:#e3e6ef;--text:#333;--muted:#888;--warn:#f39c12;--danger:#e74c3c;--ok:#27ae60}
+*{box-sizing:border-box}
+body{font-family:system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);margin:0;color:var(--text);font-size:14px}
+.wrap{max-width:1000px;margin:0 auto;padding:1.5rem 1rem 5rem}
+.card{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.06);padding:1.5rem}
+h1{font-size:1.35rem;margin:0}
+.hidden{display:none!important}
+.topbar{display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.btn{background:linear-gradient(135deg,var(--main),var(--main2));color:#fff;border:none;padding:.6rem 1.2rem;border-radius:8px;font-size:.9rem;cursor:pointer;transition:opacity .15s}
+.btn:hover{opacity:.88}
+.btn.ghost{background:#eee;color:#555}
+.btn.ghost:hover{background:#ddd}
+.btn.small{padding:.3rem .65rem;font-size:.78rem}
+.btn.danger{background:#fee;color:var(--danger)}
+.btn.danger:hover{background:#fde}
+.btn.warn{background:#fff8e1;color:#a07000;border:1px solid #f0d060}
+.login{max-width:420px;margin:10vh auto}
+.login input{padding:.7rem;border:1px solid #ddd;border-radius:8px;font-size:1rem;width:100%;margin-bottom:.8rem}
+.msg{margin-top:.8rem;font-size:.9rem;padding:.5rem .8rem;border-radius:6px;line-height:1.5}
+.msg.err{color:var(--danger);background:#fdecea}
+.msg.ok{color:var(--ok);background:#eafaf1}
+.msg.warn{color:#a07000;background:#fff8e1}
+.tabs-row{display:flex;gap:.35rem;flex-wrap:wrap;margin:.8rem 0 .5rem}
+.tabs-row a{background:#fff;border:1px solid var(--border);border-radius:999px;padding:.3rem .8rem;font-size:.8rem;color:#555;text-decoration:none;white-space:nowrap}
+.tabs-row a:hover{color:var(--main);border-color:var(--main)}
+.tabs-row a.active{background:var(--main);color:#fff;border-color:var(--main)}
+section{background:#fff;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,.06);padding:1.3rem 1.4rem;margin-bottom:1rem}
+section>h2{font-size:1rem;margin:0 0 .9rem;padding-bottom:.6rem;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.4rem}
+section>h2 .sec-icon{font-size:1.1rem}
+.sub-tabs{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:1rem}
+.sub-tabs a{background:#f0f2ff;border:1px solid #c8ceee;border-radius:8px;padding:.25rem .7rem;font-size:.78rem;color:#555;text-decoration:none}
+.sub-tabs a:hover{color:var(--main)}
+.sub-tabs a.active{background:var(--main);color:#fff;border-color:var(--main)}
+.fld{margin-bottom:.8rem}
+.fld label{display:block;font-size:.8rem;color:var(--muted);margin-bottom:.2rem}
+.fld input[type=text],.fld input[type=password],.fld input[type=number],.fld textarea,.fld select{width:100%;padding:.5rem .65rem;border:1px solid #d0d6e8;border-radius:7px;font-size:.88rem;font-family:inherit;background:#fff;transition:border-color .15s}
+.fld input:focus,.fld textarea:focus,.fld select:focus{outline:none;border-color:var(--main)}
+.fld textarea{min-height:58px;resize:vertical;line-height:1.5}
+.fld textarea.lg{min-height:100px}
+.fld textarea.xl{min-height:360px;font-family:ui-monospace,Consolas,monospace;font-size:12px;padding:.7rem;line-height:1.6}
+.fld input[type=checkbox]{width:17px;height:17px;accent-color:var(--main)}
+.chk-row{display:flex;align-items:center;gap:.5rem;cursor:pointer;font-size:.88rem}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.8rem}
+@media(max-width:640px){.row2,.row3{grid-template-columns:1fr}}
+.note{font-size:.78rem;color:var(--muted);line-height:1.65;background:#f7f8ff;border-left:3px solid var(--main);padding:.45rem .75rem;border-radius:4px;margin-bottom:.8rem}
+.note.warn2{background:#fffbe6;border-left-color:#f0c030}
+.group-card{border:1px solid var(--border);border-radius:10px;padding:.85rem 1rem;margin-bottom:.7rem;background:#fafbfe}
+.group-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;padding-bottom:.4rem;border-bottom:1px dashed var(--border)}
+.group-card-head .g-label{font-size:.78rem;color:var(--muted);font-weight:600;letter-spacing:.03em;text-transform:uppercase}
+.item-card{border:1px solid var(--border);border-radius:8px;padding:.7rem .85rem;margin-bottom:.5rem;background:#fff}
+.item-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.4rem}
+.item-card-head .i-label{font-size:.75rem;color:var(--muted)}
+.items-box .btn-add{width:100%;padding:.5rem;border:1px dashed #b8c2de;border-radius:8px;background:transparent;color:var(--main);cursor:pointer;font-size:.82rem;transition:background .15s}
+.items-box .btn-add:hover{background:#f0f2ff}
+.links-row{display:flex;gap:.35rem;align-items:center;margin-bottom:.35rem}
+.links-row input{flex:1;padding:.38rem .5rem;border:1px solid #d0d6e8;border-radius:6px;font-size:.82rem}
+.links-row input[placeholder*="文字"]{max-width:90px}
+.links-row button{border:none;background:#fee;color:var(--danger);border-radius:6px;padding:.25rem .5rem;cursor:pointer;font-size:.82rem}
+.tiny-row{display:flex;gap:.5rem;align-items:flex-start}
+.tiny-row .fld{flex:1;margin-bottom:.4rem}
+.mini-tag{display:inline-block;background:#eef0ff;color:var(--main);border-radius:999px;padding:.1rem .5rem;font-size:.72rem;margin-right:.2rem;margin-bottom:.2rem}
+.savebar{position:sticky;bottom:.8rem;display:flex;justify-content:center;gap:.8rem;padding:.75rem;background:rgba(255,255,255,.94);border:1px solid var(--border);border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,.1);backdrop-filter:blur(4px);z-index:100}
+.sec-badge{font-size:.68rem;background:#e8eaff;color:var(--main);border-radius:999px;padding:.1rem .45rem;margin-left:.3rem;vertical-align:middle}
+.login-banner{text-align:center;padding:2rem 0 1rem}
+.login-banner .ico{font-size:3rem;margin-bottom:.5rem}
+
+.navbar-block{margin-top:1.2rem;padding:1rem 1.2rem;border:1px dashed var(--card-border, #e0e0e0);border-radius:10px;background:#fafbff}
+.navbar-block .block-title{font-size:.92rem;font-weight:700;margin:0 0 .8rem 0;color:var(--main)}
+.navbar-block .fld{margin-bottom:.6rem}
+.navbar-block .hint{font-size:.76rem;color:#888;margin:.6rem 0 0 0;line-height:1.6}
+.right-btn-row{display:grid;grid-template-columns:auto 1fr 1fr auto;gap:.5rem;align-items:center;margin-bottom:.5rem;padding:.4rem .5rem;background:#fff;border-radius:8px;border:1px solid var(--card-border,#e0e0e0)}
+.right-btn-row .rb-input{font-size:.82rem;padding:.35rem .55rem}
+.right-btn-row .rb-name{font-size:.82rem;color:#666;white-space:nowrap}
+@media(max-width:768px){.right-btn-row{grid-template-columns:auto 1fr;}.right-btn-row .rb-input:nth-of-type(2){display:none}}
+
+/* ---- 分类/标签：点选式 chip ---- */
+.chip-box{display:flex;flex-wrap:wrap;gap:.35rem;margin:.2rem 0 .45rem;min-height:26px}
+.chip{display:inline-flex;align-items:center;gap:.25rem;background:#f2f4ff;border:1px solid #d7dcf5;color:#5a6480;border-radius:999px;padding:.22rem .6rem;font-size:.8rem;cursor:pointer;user-select:none;transition:.15s}
+.chip:hover{border-color:var(--main);color:var(--main)}
+.chip.on{background:var(--main);border-color:var(--main);color:#fff}
+.chip b{font-weight:700;opacity:.75}
+.chip.on b{opacity:.9}
+.chip-box .note{margin:0;font-size:.76rem}
+
+/* ---- 二级设置分类：吸顶 + 平滑滚动 ---- */
+.sticky-bar{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.94);backdrop-filter:blur(6px);padding:.55rem 0;margin-bottom:.9rem;border-bottom:1px solid var(--border);box-shadow:0 2px 8px rgba(20,30,80,.04)}
+body{scroll-behavior:smooth}
+section{scroll-margin-top:70px}
+.sec-top{display:flex;justify-content:flex-end;margin:-.2rem 0 .4rem}
+.sec-top a{font-size:.76rem;color:var(--muted);text-decoration:none}
+.sec-top a:hover{color:var(--main)}
+
+/* ---- 左侧统一设置导航 ---- */
+.admin-layout{display:flex;gap:1.1rem;align-items:flex-start;margin-top:.4rem}
+.sidenav{position:sticky;top:12px;flex:0 0 200px;align-self:flex-start;max-height:calc(100vh - 24px);overflow-y:auto;background:#fff;border:1px solid var(--border);border-radius:12px;padding:.5rem .45rem;box-shadow:0 2px 10px rgba(60,72,120,.05)}
+.sidenav .sn-group{margin-bottom:.15rem}
+.sidenav .sn-parent{display:flex;align-items:center;justify-content:space-between;gap:.4rem;padding:.55rem .55rem .4rem;cursor:pointer;user-select:none;border-radius:8px;transition:background .15s}
+.sidenav .sn-parent:hover{background:#f4f5fc}
+.sidenav .sn-ptitle{display:flex;align-items:center;gap:.5rem;font-size:.8rem;font-weight:700;color:#5b6189;letter-spacing:.01em}
+.sidenav .sn-pico{font-size:.95rem;line-height:1}
+.sidenav .sn-caret{font-size:.8rem;color:#aab0c2;transition:transform .18s ease}
+.sidenav .sn-group.open .sn-caret{transform:rotate(90deg)}
+.sidenav .sn-children{display:flex;flex-direction:column;gap:.08rem;padding:.1rem 0 .25rem}
+.sidenav .sn-group:not(.open) .sn-children{display:none}
+.sidenav .sn-children a{margin-left:.2rem;padding-left:1.5rem;font-size:.85rem}
+.sidenav a{display:block;padding:.36rem .55rem;border-radius:8px;color:#4a4a4a;font-size:.84rem;text-decoration:none;cursor:pointer;border:1px solid transparent;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sidenav a:hover{background:#f0f2ff;color:var(--main)}
+.sidenav a.active{background:var(--main);color:#fff;border-color:var(--main)}
+.settings-body{flex:1;min-width:0}
+@media(max-width:820px){.admin-layout{flex-direction:column}.sidenav{position:static;flex:none;width:100%;max-height:260px}}
+
+/* ============ WordPress / Kirki 风格改版 ============ */
+/* ① 开关 Switch：.chk-row 内的 checkbox 直接变成滑动开关，不动 HTML/JS */
+.chk-row{display:flex;align-items:center;gap:.6rem;cursor:pointer;font-size:.88rem;padding:.12rem 0}
+.chk-row input[type=checkbox]{appearance:none;-webkit-appearance:none;width:42px;height:23px;border-radius:999px;background:#cfd5e6;border:none;position:relative;cursor:pointer;flex:0 0 auto;margin:0;transition:background .2s}
+.chk-row input[type=checkbox]::after{content:'';position:absolute;top:2px;left:2px;width:19px;height:19px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:left .2s}
+.chk-row input[type=checkbox]:checked{background:linear-gradient(135deg,var(--main),var(--main2))}
+.chk-row input[type=checkbox]:checked::after{left:21px}
+.chk-row input[type=checkbox]:focus{outline:none;box-shadow:0 0 0 3px rgba(102,126,234,.25)}
+
+/* ② 区块标题渐变装饰 */
+section>h2::before{content:'';display:inline-block;width:4px;height:1.05rem;background:linear-gradient(180deg,var(--main),var(--main2));border-radius:3px;margin-right:.55rem;vertical-align:-2px}
+
+/* ③ 图片选择：路径输入 + 上传按钮 + 缩略图 */
+.imgpick{display:flex;gap:.4rem;align-items:center}
+.imgpick input[type=text]{flex:1}
+.imgpick .btn{white-space:nowrap;flex:0 0 auto}
+.imgpick-thumb{margin-top:.4rem;max-height:64px;max-width:130px;border-radius:8px;border:1px solid var(--border);display:none;object-fit:cover}
+.imgpick-thumb.show{display:block}
+
+/* ④ 数字滑块 */
+.rng-wrap{display:flex;align-items:center;gap:.6rem}
+.rng-wrap input[type=range]{flex:1;accent-color:var(--main);height:6px}
+.rng-val{min-width:2.4rem;text-align:center;background:linear-gradient(135deg,var(--main),var(--main2));color:#fff;border-radius:6px;padding:.18rem .4rem;font-size:.82rem;font-weight:600}
+
+/* ⑤ 列表卡片排序按钮 */
+.mv-btns{display:inline-flex;gap:.2rem}
+.mv-btns button{border:1px solid var(--border);background:#fff;color:#7a7a93;border-radius:6px;width:24px;height:22px;cursor:pointer;font-size:.7rem;line-height:1;padding:0}
+.mv-btns button:hover{border-color:var(--main);color:var(--main)}
+
+/* ⑥ 实时预览抽屉（B） */
+.live-preview{position:fixed;top:0;right:0;bottom:0;width:min(400px,92vw);background:#fff;border-left:1px solid var(--border);box-shadow:-10px 0 34px rgba(60,72,120,.18);z-index:200;transform:translateX(102%);transition:transform .25s ease;overflow-y:auto;padding:1.1rem 1.1rem 2rem}
+body.preview-open .live-preview{transform:none}
+#pvOverlay{display:none;position:fixed;inset:0;background:rgba(20,25,50,.32);z-index:150}
+body.preview-open #pvOverlay{display:block}
+.pv-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:.7rem}
+.pv-head h3{margin:0;font-size:.95rem;display:flex;align-items:center;gap:.4rem}
+.pv-head .dot{width:9px;height:9px;border-radius:50%;background:linear-gradient(135deg,var(--main),var(--main2));display:inline-block}
+.pv-close{border:none;background:#f0f1f6;color:#888;border-radius:8px;width:28px;height:28px;cursor:pointer;font-size:.85rem}
+.pv-close:hover{background:#e4e6f0;color:var(--main)}
+.pv-bar{height:42px;border-radius:9px;background:linear-gradient(135deg,var(--main),var(--main2));display:flex;align-items:center;gap:.55rem;padding:0 .8rem;color:#fff;box-shadow:0 4px 12px rgba(102,126,234,.3)}
+.pv-logo{width:26px;height:26px;border-radius:7px;background:rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:.6rem;font-weight:700;overflow:hidden;flex:0 0 auto}
+.pv-logo img{width:100%;height:100%;object-fit:cover}
+.pv-name{font-weight:700;font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pv-banner{margin-top:.7rem;border-radius:9px;padding:1rem .95rem;background:linear-gradient(135deg,rgba(102,126,234,.12),rgba(118,75,162,.12));border:1px solid #e7e3f5;min-height:62px}
+.pv-banner .t{font-weight:700;font-size:1.02rem;color:#3a3a5a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pv-banner .s{font-size:.8rem;color:#6a6a86;margin-top:.25rem}
+.pv-cap{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin:.9rem 0 .5rem}
+.pv-modules{display:grid;grid-template-columns:1fr 1fr;gap:.45rem}
+.pv-mod{display:flex;align-items:center;gap:.4rem;font-size:.78rem;border:1px solid var(--border);border-radius:8px;padding:.45rem .55rem;color:#aab;background:#fafbfe}
+.pv-mod .pv-led{width:8px;height:8px;border-radius:50%;background:#d0d4e0;flex:0 0 auto}
+.pv-mod.on{color:#3a3a5a;border-color:#c9c2ef;background:#f3f1ff;font-weight:600}
+.pv-mod.on .pv-led{background:linear-gradient(135deg,var(--main),var(--main2));box-shadow:0 0 0 3px rgba(102,126,234,.18)}
+.pv-tip{font-size:.74rem;color:var(--muted);margin-top:.9rem;line-height:1.6}
+
+/* ============ 设计感打磨：留白 / 层次 / 细节（简洁 · 清晰 · 干净） ============ */
+.wrap{max-width:1120px}
+body{line-height:1.6}
+.card{padding:1.6rem 1.8rem}
+.topbar{padding:1.05rem 1.6rem}
+.topbar h1{font-size:1.2rem;font-weight:700;letter-spacing:.01em}
+
+/* 区块：更透气、更精致的卡片 */
+section{padding:1.7rem 1.95rem;margin-bottom:1.3rem;border-radius:14px;box-shadow:0 1px 2px rgba(20,30,80,.04),0 12px 30px -14px rgba(20,30,80,.12)}
+section>h2{font-size:1.04rem;font-weight:600;color:#2c2f45;gap:.6rem;margin-bottom:1.15rem;padding-bottom:.85rem;border-bottom:1px solid #eef0f6}
+section>h2::before{content:none}
+.sec-icon{display:inline-flex;align-items:center;justify-content:center;width:1.75rem;height:1.75rem;border-radius:10px;background:linear-gradient(135deg,rgba(102,126,234,.14),rgba(118,75,162,.14));font-size:.95rem;flex:0 0 auto}
+
+/* 字段：更大的呼吸感 + 干净的输入框 */
+.fld{margin-bottom:1.1rem}
+.fld label{font-size:.78rem;font-weight:500;color:#7b8197;letter-spacing:.01em;margin-bottom:.4rem}
+.fld input[type=text],.fld input[type=password],.fld input[type=number],.fld textarea,.fld select{padding:.6rem .75rem;border:1px solid #e2e5f0;border-radius:9px;background:#fcfcfe;font-size:.9rem;transition:border-color .15s,box-shadow .15s,background .15s;color:#33353f}
+.fld input:focus,.fld textarea:focus,.fld select:focus{outline:none;border-color:var(--main);box-shadow:0 0 0 3px rgba(102,126,234,.15);background:#fff}
+.fld textarea{min-height:64px}
+.row2{gap:1.1rem}
+.row3{gap:1.1rem}
+
+/* 列表卡片更透气 */
+.group-card{padding:1.05rem 1.2rem;margin-bottom:.9rem;border-radius:12px;border-color:#e8eaf3}
+.item-card{padding:.9rem 1.05rem;margin-bottom:.65rem;border-radius:11px;border-color:#e8eaf3}
+.group-card-head{padding-bottom:.55rem;margin-bottom:.75rem}
+.items-box .btn-add{margin-top:.4rem}
+.note{margin-bottom:1.05rem;padding:.6rem .85rem;border-radius:8px;font-size:.78rem;line-height:1.7}
+
+/* 标签 / 子标签更精致 */
+.tabs-row{gap:.5rem;margin:.95rem 0 .65rem}
+.tabs-row a{padding:.42rem .95rem;font-size:.82rem}
+.sub-tabs{gap:.45rem;margin-bottom:1.15rem;padding:.65rem 0}
+.sub-tabs a{padding:.34rem .82rem;font-size:.8rem}
+
+/* 保存栏 */
+.savebar{border-radius:14px;padding:.85rem 1.1rem;gap:1rem}
+
+/* 侧边栏微调 */
+.sidenav{padding:.65rem .55rem;border-radius:14px}
+.sidenav .sn-group + .sn-group{border-top:1px solid #eef0f7;margin-top:.3rem;padding-top:.15rem}
+.sidenav a{padding:.44rem .62rem;font-size:.85rem}
+
+/* 预览抽屉 */
+.live-preview{padding:1.35rem 1.3rem 2.2rem}
+
+/* 底部保存栏 · 设计感增强 */
+.savebar{
+  position:sticky;bottom:.8rem;display:flex;flex-direction:column;align-items:stretch;
+  margin-top:1.6rem;padding:0;overflow:hidden;
+  background:linear-gradient(180deg,#ffffff 0%,#fbfbff 100%);
+  border:1px solid #e8eaf6;border-radius:18px;
+  box-shadow:0 16px 40px -18px rgba(102,126,234,.55),0 2px 10px rgba(20,30,80,.05);
+  z-index:100;
+}
+.savebar-actions{display:flex;justify-content:center;align-items:center;gap:1rem;flex-wrap:wrap;padding:1.1rem 1.25rem}
+.savebar .btn{
+  font-weight:600;font-size:.92rem;letter-spacing:.2px;
+  padding:.68rem 1.55rem;border-radius:11px;border:1px solid transparent;cursor:pointer;
+  display:inline-flex;align-items:center;gap:.45rem;
+  transition:transform .12s ease,box-shadow .2s ease,filter .2s ease,background .2s ease,color .2s ease;
+}
+.savebar .btn.primary{color:#fff;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);box-shadow:0 10px 22px -10px rgba(102,126,234,.85)}
+.savebar .btn.primary:hover{transform:translateY(-2px);box-shadow:0 16px 30px -12px rgba(102,126,234,.9);filter:brightness(1.05)}
+.savebar .btn.primary:active{transform:translateY(0)}
+.savebar .btn.ghost{background:#fff;color:#5b6189;border:1px solid #d9dcf0;box-shadow:none}
+.savebar .btn.ghost:hover{background:#f5f6fd;color:#474d75;border-color:#c5c9ec;transform:translateY(-1px)}
+.savebar .btn.discard{background:transparent;color:#a7adbf;border:none;box-shadow:none;font-weight:500}
+.savebar .btn.discard:hover{background:transparent;color:#828aa0}
+.savebar-note{
+  margin:0;width:100%;text-align:center;font-size:.76rem;line-height:1.7;color:#9aa0b6;
+  padding:.85rem 1.25rem .95rem;border-top:1px solid #eef0f7;background:rgba(247,248,255,.55);
+}
+.savebar-note::before{content:"\24D8";margin-right:.4rem;color:#b9bed0;font-weight:700}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="login" class="card login">
+    <div class="login-banner"><div class="ico">&#9881;</div><h1>resc.cn 站点设置</h1></div>
+    <input id="pwd" type="password" placeholder="请输入管理密码" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="btn" style="width:100%" onclick="doLogin()">登 录</button>
+    <div id="loginMsg" class="msg"></div>
+  </div>
+
+  <div id="panel" class="hidden">
+    <div class="topbar card" style="padding:1rem 1.5rem">
+      <h1>&#9881; resc.cn 站点设置</h1>
+      <div style="display:flex;gap:.5rem;align-items:center">
+        <span style="font-size:.78rem;color:var(--muted)">&#8593; 改动后需保存才生效</span>
+        <button class="btn ghost" onclick="togglePreview()">&#128065; 预览效果</button>
+        <button class="btn" onclick="doSave()">&#128190; 保存设置</button>
+        <button class="btn ghost" onclick="doLogout()">退出</button>
+      </div>
+    </div>
+    <div id="saveMsg" class="msg hidden" style="margin:.6rem 0"></div>
+
+    <div class="admin-layout">
+      <nav class="sidenav" id="sidenav">
+        <div class="sn-group open">
+          <div class="sn-parent" onclick="this.parentElement.classList.toggle('open')">
+            <span class="sn-ptitle"><span class="sn-pico">📚</span>文章与内容</span>
+            <span class="sn-caret">›</span>
+          </div>
+          <div class="sn-children">
+            <a href="#sec-posts" data-sec="sec-posts">📝 文章管理</a>
+            <a href="#sec-about" data-sec="sec-about">👤 关于我</a>
+            <a href="#sec-projects" data-sec="sec-projects">🚀 项目页</a>
+            <a href="#sec-tech" data-sec="sec-tech">💻 技术分享</a>
+            <a href="#sec-reward" data-sec="sec-reward">💰 打赏</a>
+            <a href="#sec-comment" data-sec="sec-comment">💬 评论</a>
+            <a href="#sec-contact" data-sec="sec-contact">📞 联系我</a>
+          </div>
+        </div>
+        <div class="sn-group open">
+          <div class="sn-parent" onclick="this.parentElement.classList.toggle('open')">
+            <span class="sn-ptitle"><span class="sn-pico">🎨</span>站点外观</span>
+            <span class="sn-caret">›</span>
+          </div>
+          <div class="sn-children">
+            <a href="#sec-site" data-sec="sec-site" class="active">🏠 站点信息</a>
+            <a href="#sec-header" data-sec="sec-header">📑 页眉</a>
+            <a href="#sec-navbar" data-sec="sec-navbar">🧭 导航栏</a>
+            <a href="#sec-footer" data-sec="sec-footer">🔗 社交</a>
+            <a href="#sec-media" data-sec="sec-media">🎵 音乐/搜索</a>
+            <a href="#sec-adv-cover" data-sec="sec-adv-cover">🎬 封面</a>
+          </div>
+        </div>
+        <div class="sn-group">
+          <div class="sn-parent" onclick="this.parentElement.classList.toggle('open')">
+            <span class="sn-ptitle"><span class="sn-pico">⚙️</span>高级设置</span>
+            <span class="sn-caret">›</span>
+          </div>
+          <div class="sn-children">
+            <a href="#sec-adv-nav" data-sec="sec-adv-nav">🗂 导航菜单</a>
+            <a href="#sec-adv-aside" data-sec="sec-adv-aside">📋 侧边栏</a>
+            <a href="#sec-adv-links" data-sec="sec-adv-links">🤝 友链名单</a>
+            <a href="#sec-adv-friends" data-sec="sec-adv-friends">👥 友链圈子</a>
+            <a href="#sec-adv-stat" data-sec="sec-adv-stat">📊 统计/灯箱</a>
+            <a href="#sec-adv-redirect" data-sec="sec-adv-redirect">↪️ 外链跳转</a>
+            <a href="#sec-adv-sitemap" data-sec="sec-adv-sitemap">🗺 站点地图</a>
+            <a href="#sec-adv-inject" data-sec="sec-adv-inject">📄 头部注入</a>
+            <a href="#sec-adv-navmore" data-sec="sec-adv-navmore">⬇️ 更多导航</a>
+            <a href="#sec-adv-json" data-sec="sec-adv-json">🧩 高级 JSON</a>
+          </div>
+        </div>
+      </nav>
+      <div class="settings-body">
+
+    <!-- ===== 基础设置 ===== -->
+    <div id="tab-basic">
+
+      <section id="sec-site">
+        <h2><span class="sec-icon">&#127968;</span> 站点信息</h2>
+        <div class="row2">
+          <div class="fld"><label>站点名称</label><input type="text" data-k="siteMeta.title" placeholder="小性工作室"></div>
+          <div class="fld"><label>站点地址</label><input type="text" data-k="siteMeta.site" placeholder="https://resc.cn"></div>
+        </div>
+        <div class="fld"><label>站点描述</label><textarea data-k="siteMeta.description" placeholder="描述…"></textarea></div>
+        <div class="fld"><label>Logo 路径</label>
+          <div class="imgpick">
+            <input type="text" data-k="siteMeta.logo" placeholder="/images/logo/zxxlogo.png">
+            <button class="btn small" type="button" onclick="pickImage(this,'siteMeta.logo')">📤 上传</button>
+          </div>
+          <img class="imgpick-thumb" data-thumb="siteMeta.logo" alt="预览">
+        </div>
+        <div class="row2">
+          <div class="fld"><label>作者名</label><input type="text" data-k="siteMeta.author.name"></div>
+          <div class="fld"><label>作者头像路径</label>
+            <div class="imgpick">
+              <input type="text" data-k="siteMeta.author.cover">
+              <button class="btn small" type="button" onclick="pickImage(this,'siteMeta.author.cover')">📤 上传</button>
+            </div>
+            <img class="imgpick-thumb" data-thumb="siteMeta.author.cover" alt="预览">
+          </div>
+        </div>
+        <div class="row2">
+          <div class="fld"><label>联系邮箱</label><input type="text" data-k="siteMeta.author.email"></div>
+          <div class="fld"><label>备案号（ICP）</label><input type="text" data-k="icp" placeholder="豫ICP备2024084281号-1"></div>
+        </div>
+        <div class="row2">
+          <div class="fld"><label>建站时间</label><input type="text" data-k="since" placeholder="2024-01-01"></div>
+          <div class="fld"><label>每页文章数</label><div class="rng-wrap"><input type="range" data-k="postSize" min="1" max="50"><span class="rng-val" id="postSizeVal">8</span></div></div>
+          <div class="fld"><label>站点语言（lang，默认 zh-CN）</label><input type="text" data-k="siteMeta.lang" placeholder="zh-CN"></div>
+        </div>
+      </section>
+
+      <section id="sec-about">
+        <h2><span class="sec-icon">&#128100;</span> 关于我</h2>
+        <div class="row2">
+          <div class="fld"><label>标题</label><input type="text" data-k="about.heroTitle"></div>
+          <div class="fld"><label>副标题</label><input type="text" data-k="about.heroSubSuffix"></div>
+        </div>
+        <div class="fld">
+          <label>技能栈（分组，可增删）</label>
+          <div class="items-box" id="skillsList"></div>
+        </div>
+        <div class="fld"><label>在折腾什么（每行一项）</label><textarea class="lg" data-lines="about.interests"></textarea></div>
+        <div class="fld"><label>为什么做这个站（每行一段）</label><textarea class="lg" data-lines="about.why"></textarea></div>
+        <div class="fld">
+          <label>时间线（可增删）</label>
+          <div class="items-box" id="timelineList"></div>
+        </div>
+        <div class="fld">
+          <label>关于页项目（可增删）</label>
+          <div class="items-box" id="aboutProjectsList"></div>
+        </div>
+      </section>
+
+      <section id="sec-contact">
+        <h2><span class="sec-icon">&#128222;</span> 联系我（关于本站页面）</h2>
+        <p class="note">「关于本站 → 联系我」卡片里显示的条目，可任意增删。<strong>链接</strong>留空则只显示文字不跳转；填 <code>https://…</code> 会新窗口打开，填 <code>mailto:xxx@xx.com</code> 可直接发邮件。</p>
+        <div class="items-box" id="contactList"></div>
+      </section>
+
+      <section id="sec-projects">
+        <h2><span class="sec-icon">&#128640;</span> 我的项目（项目页）</h2>
+        <div class="items-box" id="projectsList"></div>
+      </section>
+
+      <section id="sec-tech">
+        <h2><span class="sec-icon">&#128187;</span> 技术分享</h2>
+        <div class="row2">
+          <div class="fld"><label>页面标题</label><input type="text" data-k="techshare.title"></div>
+        </div>
+        <div class="fld"><label>分类白名单（每行一个，不区分大小写）</label><textarea class="lg" data-lines="techshare.categories" placeholder="技术&#10;前端&#10;Vue"></textarea></div>
+      </section>
+
+      <section id="sec-reward">
+        <h2><span class="sec-icon">&#128176;</span> 打赏</h2>
+        <div class="fld"><label class="chk-row"><input type="checkbox" data-chk="rewardData.enable"> 开启打赏功能</label></div>
+        <div class="row2">
+          <div class="fld"><label>微信收款码路径</label>
+            <div class="imgpick">
+              <input type="text" data-k="rewardData.wechat" placeholder="/images/reward/wechat.png">
+              <button class="btn small" type="button" onclick="pickImage(this,'rewardData.wechat')">📤 上传</button>
+            </div>
+            <img class="imgpick-thumb" data-thumb="rewardData.wechat" alt="预览">
+          </div>
+          <div class="fld"><label>支付宝收款码路径</label>
+            <div class="imgpick">
+              <input type="text" data-k="rewardData.alipay" placeholder="/images/reward/alipay.png">
+              <button class="btn small" type="button" onclick="pickImage(this,'rewardData.alipay')">📤 上传</button>
+            </div>
+            <img class="imgpick-thumb" data-thumb="rewardData.alipay" alt="预览">
+          </div>
+        </div>
+      </section>
+
+      <section id="sec-comment">
+        <h2><span class="sec-icon">&#128172;</span> 评论（Twikoo）</h2>
+        <div class="fld"><label class="chk-row"><input type="checkbox" data-chk="comment.enable"> 开启评论</label></div>
+        <div class="row2">
+          <div class="fld"><label>类型</label><input type="text" data-k="comment.type" placeholder="twikoo"></div>
+          <div class="fld"><label>前端 JS 路径</label><input type="text" data-k="comment.twikoo.js" placeholder="/twikoo.v1715.min.js"></div>
+        </div>
+        <div class="row2">
+          <div class="fld"><label>envId（结尾带斜杠）</label><input type="text" data-k="comment.twikoo.envId" placeholder="https://resc.cn/twikoo/"></div>
+          <div class="fld"><label>语言</label><input type="text" data-k="comment.twikoo.lang" placeholder="zh-CN"></div>
+        </div>
+        <div class="row2">
+          <div class="fld"><label>Twikoo 地域（腾讯云填 ap-shanghai 等，Vercel 留空）</label><input type="text" data-k="comment.twikoo.region" placeholder="ap-shanghai"></div>
+          <div class="fld"><label>Artalk 站点名</label><input type="text" data-k="comment.artalk.site" placeholder="留空则不启用 Artalk"></div>
+        </div>
+        <div class="fld"><label>Artalk 服务端地址</label><input type="text" data-k="comment.artalk.server" placeholder="https://your-artalk.example.com"></div>
+      </section>
+
+      <section id="sec-media">
+        <h2><span class="sec-icon">&#127926;</span> 音乐播放器 &amp; 全站搜索</h2>
+        <div class="fld"><label class="chk-row"><input type="checkbox" data-chk="music.enable"> 开启底部音乐播放器</label></div>
+        <div class="row2">
+          <div class="fld"><label>音乐接口地址（Meting API）</label><input type="text" data-k="music.url" placeholder="https://api-meting.example.com"></div>
+          <div class="fld"><label>歌单 / 专辑 ID</label><input type="text" data-k="music.id" placeholder="9379831714"></div>
+        </div>
+        <div class="row2">
+          <div class="fld"><label>平台</label>
+            <select data-k="music.server">
+              <option value="netease">网易云</option><option value="tencent">QQ 音乐</option><option value="kugou">酷狗</option>
+            </select>
+          </div>
+          <div class="fld"><label>类型</label>
+            <select data-k="music.type">
+              <option value="playlist">歌单</option><option value="album">专辑</option><option value="song">单曲</option>
+            </select>
+          </div>
+        </div>
+        <p class="note">没有自己的音乐接口可以留关。搜索需要先到 algolia.com 申请账号，拿到下面的 ID 和 Key。</p>
+        <div class="fld"><label class="chk-row"><input type="checkbox" data-chk="search.enable"> 开启全站搜索（Algolia）</label></div>
+        <div class="row2">
+          <div class="fld"><label>Algolia appId</label><input type="text" data-k="search.appId" placeholder="留空则不启用"></div>
+          <div class="fld"><label>Algolia apiKey</label><input type="text" data-k="search.apiKey" placeholder="搜索用只读 Key"></div>
+        </div>
+      </section>
+
+      <section id="sec-footer">
+        <h2><span class="sec-icon">&#129511;</span> 页脚社交（可增删）</h2>
+        <div class="items-box" id="socialList"></div>
+      </section>
+
+      <section id="sec-header">
+        <h2><span class="sec-icon">&#128204;</span> 页眉设置</h2>
+        <div class="row2">
+          <div class="fld"><label>导航栏站点名称</label><input type="text" data-k="siteMeta.title" placeholder="小性工作室"></div>
+          <div class="fld"><label>导航栏 Logo 路径</label><input type="text" data-k="siteMeta.logo" placeholder="/images/logo/zxxlogo.png"></div>
+        </div>
+        <div class="fld"><label>首页欢迎标题（{name} 会自动替换为站点名）</label><input type="text" data-k="banner.title" placeholder="你好，欢迎来到{name}"></div>
+        <div class="row2">
+          <div class="fld"><label>副标题来源</label>
+            <select data-k="banner.subtitleMode">
+              <option value="hitokoto">一言（随机句子）</option>
+              <option value="text">自定义文字</option>
+            </select>
+          </div>
+          <div class="fld"><label>页眉默认高度</label>
+            <select data-k="banner.height">
+              <option value="half">半屏</option>
+              <option value="full">全屏</option>
+            </select>
+          </div>
+        </div>
+        <div class="fld"><label>自定义副标题（选择「自定义文字」时显示）</label><input type="text" data-k="banner.subtitle" placeholder="记录想法、分享作品"></div>
+        <div class="fld"><label>页眉背景图路径（留空为纯色背景）</label>
+          <div class="imgpick">
+            <input type="text" data-k="banner.background" placeholder="/images/banner/bg.jpg">
+            <button class="btn small" type="button" onclick="pickImage(this,'banner.background')">📤 上传</button>
+          </div>
+          <img class="imgpick-thumb" data-thumb="banner.background" alt="预览">
+        </div>
+      </section>
+
+      <section id="sec-navbar">
+        <h2><span class="sec-icon">&#128205;</span> 导航栏设置</h2>
+        <div class="fld"><label>左侧站点名称（留空则使用站点信息里的标题）</label><input type="text" data-k="navBar.siteName" placeholder="小性工作室"></div>
+
+        <div class="navbar-block">
+          <h3 class="block-title">中间导航菜单（文库 / 专栏 / 友链 / 我的）</h3>
+          <div class="fld"><label class="chk-row"><input type="checkbox" data-chk="navBar.menuItems.0.visible"> 显示「文库」分组</label></div>
+          <div class="fld"><label class="chk-row"><input type="checkbox" data-chk="navBar.menuItems.1.visible"> 显示「专栏」分组</label></div>
+          <div class="fld"><label class="chk-row"><input type="checkbox" data-chk="navBar.menuItems.2.visible"> 显示「友链」分组</label></div>
+          <div class="fld"><label class="chk-row"><input type="checkbox" data-chk="navBar.menuItems.3.visible"> 显示「我的」分组</label></div>
+          <p class="hint">提示：菜单文本、子项增删改、链接、图标请到 <strong>高级设置 → 导航菜单</strong> 编辑。</p>
+        </div>
+
+        <div class="navbar-block">
+          <h3 class="block-title">右侧按钮</h3>
+          <div class="right-btn-row">
+            <label class="chk-row"><input type="checkbox" data-chk="navBar.rightButtons.travellings.visible"> 显示</label>
+            <input type="text" data-k="navBar.rightButtons.travellings.title" placeholder="标题（鼠标悬停提示）" class="rb-input">
+            <input type="text" data-k="navBar.rightButtons.travellings.url" placeholder="https://www.travellings.cn/go.html" class="rb-input">
+            <span class="rb-name">开往-友链接力</span>
+          </div>
+          <div class="right-btn-row">
+            <label class="chk-row"><input type="checkbox" data-chk="navBar.rightButtons.shuffle.visible"> 显示</label>
+            <input type="text" data-k="navBar.rightButtons.shuffle.title" placeholder="标题" class="rb-input">
+            <span class="rb-name">随机文章</span>
+          </div>
+          <div class="right-btn-row">
+            <label class="chk-row"><input type="checkbox" data-chk="navBar.rightButtons.search.visible"> 显示</label>
+            <input type="text" data-k="navBar.rightButtons.search.title" placeholder="标题" class="rb-input">
+            <span class="rb-name">全站搜索（需在「音乐/搜索」里开启）</span>
+          </div>
+          <div class="right-btn-row">
+            <label class="chk-row"><input type="checkbox" data-chk="navBar.rightButtons.control.visible"> 显示</label>
+            <input type="text" data-k="navBar.rightButtons.control.title" placeholder="标题" class="rb-input">
+            <span class="rb-name">打开中控台</span>
+          </div>
+          <div class="right-btn-row">
+            <label class="chk-row"><input type="checkbox" data-chk="navBar.rightButtons.backToTop.visible"> 显示</label>
+            <input type="text" data-k="navBar.rightButtons.backToTop.title" placeholder="标题" class="rb-input">
+            <span class="rb-name">返回顶部</span>
+          </div>
+        </div>
+      </section>
+
+      <section id="sec-posts">
+        <h2><span class="sec-icon">&#128221;</span> 文章管理</h2>
+        <div id="post-list-view">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem;flex-wrap:wrap;gap:.5rem">
+            <span class="note" style="margin:0">Markdown 文件，保存后自动构建发布（约 1-2 分钟上线）</span>
+            <button class="btn small" onclick="newPost()">&#9998; 新建文章</button>
+          </div>
+          <table style="width:100%;border-collapse:collapse;font-size:.88rem">
+            <thead><tr style="text-align:left;color:var(--muted);font-size:.78rem;border-bottom:2px solid var(--border)">
+              <th style="padding:.4rem .5rem">标题</th><th style="padding:.4rem .5rem">日期</th><th style="padding:.4rem .5rem">分类</th><th style="padding:.4rem .5rem">标签</th><th style="padding:.4rem .5rem;white-space:nowrap">操作</th>
+            </tr></thead>
+            <tbody id="postRows"></tbody>
+          </table>
+          <div id="postEmpty" class="note hidden" style="margin-top:.8rem">还没有文章，点右上角「新建文章」开始写</div>
+        </div>
+        <div id="post-edit-view" class="hidden">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.8rem">
+            <h3 style="margin:0;font-size:.95rem" id="postEditTitle">编辑文章</h3>
+            <button class="btn ghost small" onclick="backToPosts()">&#8592; 返回列表</button>
+          </div>
+          <input type="hidden" id="pe-file">
+          <div class="row2">
+            <div class="fld"><label>标题 *</label><input type="text" id="pe-title" placeholder="文章标题"></div>
+            <div class="fld"><label>日期 *（YYYY-MM-DD）</label><input type="text" id="pe-date" placeholder="2026-08-06"></div>
+          </div>
+          <div class="row2">
+            <div class="fld"><label>slug *（小写字母/数字/中划线）</label><input type="text" id="pe-slug" placeholder="my-first-post"></div>
+            <div class="fld"><label>封面图路径（可选）</label><input type="text" id="pe-cover" placeholder="/images/covers/xxx.png"></div>
+          </div>
+          <div class="row2">
+            <div class="fld"><label>分类（点已有的即可选中，也可输入新的按回车）</label>
+              <div class="chip-box" id="pe-cat-box"></div>
+              <input type="text" id="pe-categories" placeholder="输入新分类后回车">
+            </div>
+            <div class="fld"><label>标签（点已有的即可选中，也可输入新的按回车）</label>
+              <div class="chip-box" id="pe-tag-box"></div>
+              <input type="text" id="pe-tags" placeholder="输入新标签后回车">
+            </div>
+          </div>
+          <div class="fld">
+            <label>摘要（留空自动提取正文前 150 字）</label>
+            <div style="display:flex;gap:.4rem;align-items:flex-start">
+              <textarea id="pe-desc" style="flex:1"></textarea>
+              <button type="button" class="btn ghost small" style="white-space:nowrap;flex-shrink:0;margin-top:.2rem" onclick="autoDesc()">&#129302; 自动提取</button>
+            </div>
+          </div>
+          <div class="fld">
+            <label>正文（Markdown）
+              <button type="button" class="btn ghost small" style="margin-left:.5rem;font-size:.75rem;vertical-align:middle" onclick="uploadImage()">&#128247; 上传图片</button>
+              <input type="file" id="imgFile" accept="image/*" style="display:none" onchange="doUploadImg(this)">
+            </label>
+            <textarea id="pe-content" style="min-height:300px;font-family:ui-monospace,Consolas,monospace;font-size:12px;line-height:1.6"></textarea>
+          </div>
+          <div style="display:flex;gap:.6rem;margin-top:.3rem">
+            <button class="btn" onclick="savePost()">&#128190; 保存并发布</button>
+            <button class="btn ghost" onclick="backToPosts()">取消</button>
+          </div>
+          <div id="postMsg" class="msg hidden" style="margin-top:.7rem"></div>
+        </div>
+      </section>
+    </div><!-- /tab-basic -->
+
+    <!-- ===== 高级设置 ===== -->
+    <div id="tab-adv" class="hidden">
+
+      <!-- 导航菜单 -->
+      <section id="sec-adv-nav">
+        <h2><span class="sec-icon">&#127757;</span> 导航菜单 <span class="sec-badge">可增删分组与项目</span></h2>
+        <p class="note">顶部导航条。分组（文库/专栏/友链/我的）是顶层；分组内的 items 是下拉项。</p>
+        <div class="items-box" id="navList"></div>
+      </section>
+
+      <!-- 侧边栏 -->
+      <section id="sec-adv-aside">
+        <h2><span class="sec-icon">&#9776;</span> 侧边栏</h2>
+        <p class="note">控制文章页右侧边栏显示哪些模块。</p>
+        <div class="row2">
+          <div class="fld"><label class="chk-row"><input type="checkbox" data-chk="aside.hello.enable"> 招呼语（hello）</label></div>
+          <div class="fld"><label>招呼语内容</label><textarea data-k="aside.hello.text" placeholder="欢迎语…支持 HTML"></textarea></div>
+        </div>
+        <div class="row2">
+          <div class="fld"><label class="chk-row"><input type="checkbox" data-chk="aside.toc.enable"> 目录（TOC）</label></div>
+          <div class="fld"><label class="chk-row"><input type="checkbox" data-chk="aside.tags.enable"> 标签列表</label></div>
+        </div>
+        <div class="row2">
+          <div class="fld"><label class="chk-row"><input type="checkbox" data-chk="aside.countDown.enable"> 倒计时</label></div>
+          <div class="fld"><label class="chk-row"><input type="checkbox" data-chk="aside.siteData.enable"> 站点数据（文章数等）</label></div>
+        </div>
+        <div class="row2">
+          <div class="fld"><label>倒计时名称</label><input type="text" data-k="aside.countDown.data.name" placeholder="如：春节"></div>
+          <div class="fld"><label>倒计时日期</label><input type="text" data-k="aside.countDown.data.date" placeholder="2025-01-29"></div>
+        </div>
+      </section>
+
+      <!-- 封面 -->
+      <section id="sec-adv-cover">
+        <h2><span class="sec-icon">&#127916;</span> 封面设置</h2>
+        <div class="row2">
+          <div class="fld"><label class="chk-row"><input type="checkbox" data-chk="cover.twoColumns"> 双栏封面布局</label></div>
+          <div class="fld"><label class="chk-row"><input type="checkbox" data-chk="cover.showCover.enable"> 显示封面图</label></div>
+        </div>
+        <div class="row2">
+          <div class="fld"><label>封面布局</label>
+            <select data-k="cover.showCover.coverLayout">
+              <option value="left">左侧</option><option value="right">右侧</option><option value="top">顶部</option><option value="bottom">底部</option>
+            </select>
+          </div>
+          <div class="fld"><label>默认封面图路径</label>
+            <div class="imgpick">
+              <input type="text" data-k="cover.showCover.defaultCover.0" placeholder="/images/logo/zxxlogo.png">
+              <button class="btn small" type="button" onclick="pickImage(this,'cover.showCover.defaultCover.0')">📤 上传</button>
+            </div>
+            <img class="imgpick-thumb" data-thumb="cover.showCover.defaultCover.0" alt="预览">
+          </div>
+        </div>
+      </section>
+
+      <!-- 友链名单 -->
+      <section id="sec-adv-links">
+        <h2><span class="sec-icon">&#128279;</span> 友链名单 <span class="sec-badge">分组与条目可增删</span></h2>
+        <p class="note">「友情链接」页面展示的名单。<strong>分组</strong>就是「推荐 / 小伙伴们」这样的分类，<strong>条目</strong>是里面的每个站点（头像、名称、简介、网址）。</p>
+        <div class="items-box" id="linkDataList"></div>
+      </section>
+
+      <!-- 友链圈子 -->
+      <section id="sec-adv-friends">
+        <h2><span class="sec-icon">&#128101;</span> 友链圈子</h2>
+        <p class="note">两项都是可选的锦上添花功能，暂时用不上可以留空。</p>
+        <div class="fld"><label>好友圈 Feed 地址（circleOfFriends）</label><input type="text" data-k="friends.circleOfFriends" placeholder="https://…/friends.json"></div>
+        <div class="row2">
+          <div class="fld"><label>动态友链服务地址</label><input type="text" data-k="friends.dynamicLink.server" placeholder="https://…"></div>
+          <div class="fld"><label>动态友链 app_token</label><input type="text" data-k="friends.dynamicLink.app_token"></div>
+        </div>
+        <div class="fld"><label>动态友链 table_id</label><input type="text" data-k="friends.dynamicLink.table_id"></div>
+      </section>
+
+      <!-- 统计 & 灯箱 -->
+      <section id="sec-adv-stat">
+        <h2><span class="sec-icon">&#128202;</span> 站点统计 &amp; 图片灯箱</h2>
+        <div class="fld"><label>51la 统计 ID</label><input type="text" data-k="tongji.51la" placeholder="留空则不加载统计脚本"></div>
+        <div class="fld"><label class="chk-row"><input type="checkbox" data-chk="fancybox.enable"> 开启图片灯箱（点文章里的图可以放大看）</label></div>
+        <div class="row2">
+          <div class="fld"><label>灯箱 JS 地址</label><input type="text" data-k="fancybox.js"></div>
+          <div class="fld"><label>灯箱 CSS 地址</label><input type="text" data-k="fancybox.css"></div>
+        </div>
+        <p class="note">灯箱默认用的是公益 CDN 镜像，能正常加载就不用改。</p>
+      </section>
+
+      <!-- 外链跳转 -->
+      <section id="sec-adv-redirect">
+        <h2><span class="sec-icon">&#8677;</span> 外链跳转提示</h2>
+        <p class="note">开启后，站里指向别的网站的链接会先跳到一个「即将离开本站」的提示页，再跳过去。</p>
+        <div class="fld"><label class="chk-row"><input type="checkbox" data-chk="jumpRedirect.enable"> 开启外链中转提示</label></div>
+        <div class="fld"><label>不走中转的类名（每行一个）</label><textarea class="lg" data-lines="jumpRedirect.exclude" placeholder="cf-friends-link&#10;social-link&#10;travellings"></textarea></div>
+      </section>
+
+      <!-- 站点地图 -->
+      <section id="sec-adv-sitemap">
+        <h2><span class="sec-icon">&#128203;</span> 页脚站点地图</h2>
+        <p class="note">页脚底部的链接分组（如：博客 / 页面）。</p>
+        <div class="items-box" id="sitemapList"></div>
+      </section>
+
+      <!-- 头部注入 -->
+      <section id="sec-adv-inject">
+        <h2><span class="sec-icon">&#128196;</span> 头部注入（inject.header）</h2>
+        <p class="note">插入到 <code>&lt;head&gt;</code> 的资源引用，如 favicon / RSS / 字体等。格式：<strong>标签</strong> + <strong>属性 JSON</strong>。</p>
+        <div class="items-box" id="injectList"></div>
+      </section>
+
+      <!-- 更多导航 -->
+      <section id="sec-adv-navmore">
+        <h2><span class="sec-icon">&#8595;</span> 更多导航（navMore）<span class="sec-badge">下拉菜单</span></h2>
+        <p class="note">鼠标悬停「更多」按钮时显示的下拉内容，分组展示，每组有 name 和 list（子项）。子项格式：名称 / URL / SVG 图标代码。</p>
+        <div class="items-box" id="navMoreList"></div>
+      </section>
+
+      <!-- 高级 JSON 兜底 -->
+      <section id="sec-adv-json">
+        <h2><span class="sec-icon">&#128196;</span> 高级 JSON（兜底编辑）</h2>
+        <p class="note warn2">当表单无法满足需求时，可直接编辑这里完整的 JSON。保存时以这里的 JSON 为准（即使和表单不一致）。</p>
+        <textarea id="advJson" class="fld textarea xl" spellcheck="false"></textarea>
+      </section>
+    </div><!-- /tab-adv -->
+
+    <div class="savebar">
+      <div class="savebar-actions">
+        <button class="btn primary" onclick="doSave()">&#128190; 保存设置</button>
+        <button class="btn ghost" onclick="rebuildSite()">&#128260; 重新构建并上线</button>
+        <button class="btn discard" onclick="location.reload()">放弃修改并刷新</button>
+      </div>
+      <p class="savebar-note">改动「导航、导航菜单、友链名单、统计、灯箱、外链跳转、封面」这类需要打包的配置时，保存后点一下「重新构建并上线」，等提示出现再刷新前台。其余（站点信息、关于我、项目、打赏、页眉等）保存后直接刷新就生效。</p>
+    </div>
+    </div><!-- /settings-body -->
+    </div><!-- /admin-layout -->
+  </div>
+</div>
+<aside class="live-preview" id="livePreview" aria-hidden="true">
+  <div class="pv-head">
+    <h3><span class="dot"></span> 实时预览</h3>
+    <button class="pv-close" type="button" onclick="togglePreview()" title="关闭">✕</button>
+  </div>
+  <div class="pv-bar">
+    <span class="pv-logo" id="pvLogo">LOGO</span>
+    <span class="pv-name" id="pvName">小性工作室</span>
+  </div>
+  <div class="pv-banner">
+    <div class="t" id="pvTitle">你好，欢迎来到{name}</div>
+    <div class="s" id="pvSub">记录想法、分享作品</div>
+  </div>
+  <div class="pv-cap">已开启的模块</div>
+  <div class="pv-modules">
+    <div class="pv-mod" data-mod="music.enable"><span class="pv-led"></span>音乐播放器</div>
+    <div class="pv-mod" data-mod="comment.enable"><span class="pv-led"></span>评论</div>
+    <div class="pv-mod" data-mod="search.enable"><span class="pv-led"></span>全站搜索</div>
+    <div class="pv-mod" data-mod="rewardData.enable"><span class="pv-led"></span>打赏</div>
+    <div class="pv-mod" data-mod="fancybox.enable"><span class="pv-led"></span>图片灯箱</div>
+    <div class="pv-mod" data-mod="jumpRedirect.enable"><span class="pv-led"></span>外链中转</div>
+  </div>
+  <p class="pv-tip">⚡ 改动左侧任意设置，这里会即时反映。保存后点「重新构建并上线」才会真正生效。</p>
+</aside>
+<div id="pvOverlay" onclick="togglePreview()"></div>
+<input type="file" id="imgPicker" accept="image/*" style="display:none">
+<script>
+const api = '/admin/api'
+let S = null, s = null, origAdv = ''
+
+function esc(x){ return String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])) }
+function $(s){ return document.querySelector(s) }
+function $$(s){ return [...document.querySelectorAll(s)] }
+
+function msg(el, text, ok){
+  const m = el || $('#saveMsg')
+  m.textContent = text
+  m.className = 'msg ' + (ok===false ? 'err' : ok===null ? 'warn' : 'ok')
+  m.classList.remove('hidden')
+  setTimeout(()=>m.classList.add('hidden'), 6000)
+}
+
+/* ---- 标签页切换 ---- */
+function showTab(tab){
+  $('#tab-basic').classList.toggle('hidden', tab!=='basic')
+  $('#tab-adv').classList.toggle('hidden', tab!=='adv')
+  $$('.tabs-row>a[href^="#"]').forEach(a => {
+    const t = a.getAttribute('href').slice(1)
+    a.classList.toggle('active', t===('tab-'+tab))
+  })
+  const act = document.querySelector('#tab-'+tab+' .sub-tab.active')
+  if(act) showSection(act.getAttribute('data-sec'), false)
+}
+/* 点二级分类 → 只显示那一节并滚过去 */
+function showSection(secId, scroll){
+  const sec = document.getElementById(secId)
+  if(!sec) return
+  const container = sec.parentElement
+  container.querySelectorAll(':scope > section').forEach(s => {
+    s.classList.toggle('hidden', s !== sec)
+  })
+  const bar = container.querySelector('.sub-tabs')
+  if(bar) bar.querySelectorAll('.sub-tab[data-sec]').forEach(x => x.classList.toggle('active', x.getAttribute('data-sec')===secId))
+  if(scroll!==false){
+    const y = container.getBoundingClientRect().top + window.pageYOffset - 56
+    window.scrollTo({top: Math.max(0,y), behavior:'smooth'})
+  }
+}
+function showAllSections(){
+  ['tab-basic','tab-adv'].forEach(id=>{
+    const c=document.getElementById(id); if(!c) return
+    c.querySelectorAll(':scope > section').forEach(s=>s.classList.remove('hidden'))
+  })
+  window.scrollTo({top:0,behavior:'smooth'})
+}
+function gotoSection(secId){
+  const sec = document.getElementById(secId)
+  if(!sec) return
+  const tabWrap = sec.closest('[id^="tab-"]')
+  if(!tabWrap) return
+  showTab(tabWrap.id.replace('tab-',''))
+  showSection(secId, true)
+  $$('.sidenav a[data-sec]').forEach(x => x.classList.toggle('active', x.dataset.sec===secId))
+  openActiveSn()
+}
+function openActiveSn(){
+  const act=document.querySelector('.sidenav a.active'); if(!act) return
+  const g=act.closest('.sn-group'); if(g) g.classList.add('open')
+}
+document.querySelectorAll('.sub-tab[data-sec]').forEach(a => {
+  a.addEventListener('click', e => { e.preventDefault(); gotoSection(a.dataset.sec) })
+})
+document.querySelectorAll('.sidenav a[data-sec]').forEach(a => {
+  a.addEventListener('click', e => { e.preventDefault(); gotoSection(a.dataset.sec) })
+})
+
+/* ============ 实时预览 + 图片上传 + 卡片排序（WordPress 风格改版） ============ */
+/* 列表卡片排序按钮 HTML：注入到各 render 函数的卡片头部 */
+function mvBtns(cid, sel){
+  return '<span class="mv-btns" data-mv="'+cid+'|'+sel+'"><button type="button" class="mv-up" title="上移">▲</button><button type="button" class="mv-down" title="下移">▼</button></span>'
+}
+/* 上移 / 下移（委托监听，render 重渲染后依然有效；顺序变化会被 collectForm 按 DOM 顺序读取） */
+document.addEventListener('click', function(e){
+  const b = e.target.closest('.mv-up,.mv-down'); if(!b) return
+  const wrap = b.closest('.mv-btns'); if(!wrap) return
+  const parts = wrap.getAttribute('data-mv').split('|')
+  const sel = parts[1]
+  const card = b.closest(sel); if(!card) return
+  const parent = card.parentElement
+  if(b.classList.contains('mv-up')){
+    const prev = card.previousElementSibling
+    if(prev && prev.matches(sel)) parent.insertBefore(card, prev)
+  } else {
+    const next = card.nextElementSibling
+    if(next && next.matches(sel)) parent.insertBefore(card, next.nextElementSibling)
+  }
+})
+
+/* 同步图片缩略图 */
+function syncThumbs(){
+  document.querySelectorAll('[data-thumb]').forEach(th=>{
+    const inp = document.querySelector('[data-k="'+th.getAttribute('data-thumb')+'"]')
+    const v = inp ? inp.value : ''
+    if(v){ th.src=v; th.classList.add('show') } else { th.classList.remove('show') }
+  })
+}
+/* 实时预览（B）：反映站点名 / Logo / 页眉 / 模块开关，主题配色 */
+function livePreview(){
+  const g = k => { const el=document.querySelector('[data-k="'+k+'"]'); return el?el.value:'' }
+  const gc = k => { const el=document.querySelector('[data-chk="'+k+'"]'); return el?el.checked:false }
+  const name = (g('siteMeta.title')||'小性工作室').replace(/\{name\}/g,'').trim() || '小性工作室'
+  const pvName=$('#pvName'); if(pvName) pvName.textContent=name
+  const pvTitle=$('#pvTitle'); if(pvTitle) pvTitle.textContent=(g('banner.title')||'你好，欢迎来到{name}').replace(/\{name\}/g,name)
+  const mode=g('banner.subtitleMode')
+  const pvSub=$('#pvSub'); if(pvSub) pvSub.textContent = mode==='text' ? (g('banner.subtitle')||'（自定义文字为空）') : '（一言随机句子）'
+  const logo=g('siteMeta.logo'); const pl=$('#pvLogo')
+  if(pl){ if(logo){ pl.innerHTML='<img src="'+logo+'" alt="">' } else { pl.textContent='LOGO' } }
+  document.querySelectorAll('.pv-mod').forEach(m=>{ m.classList.toggle('on', gc(m.getAttribute('data-mod'))) })
+  const ps=$('#postSizeVal'); const pe=document.querySelector('[data-k="postSize"]'); if(ps&&pe) ps.textContent=pe.value
+  syncThumbs()
+}
+function togglePreview(){ document.body.classList.toggle('preview-open') }
+
+/* 图片上传（复用 /api/upload），选图后写入对应路径并显示缩略图 */
+let _pickTarget=null
+function pickImage(btn, key){
+  const wrapEl = btn.closest('.imgpick') || btn.parentElement
+  const inp = wrapEl.querySelector('input[type=text]')
+  if(!inp) return
+  _pickTarget = { input: inp, key: key }
+  $('#imgPicker').click()
+}
+document.getElementById('imgPicker').addEventListener('change', async function(){
+  const inp=this; const file=inp.files[0]
+  if(!file || !_pickTarget){ inp.value=''; return }
+  if(file.size>5*1024*1024){ msg($('#saveMsg'),'图片不能超过 5MB',false); inp.value=''; return }
+  const reader=new FileReader()
+  reader.onload=async function(e){
+    try{
+      const r=await fetch(api+'/upload',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:file.name,data:e.target.result})})
+      const d=await r.json()
+      if(!d.ok){ msg($('#saveMsg'),'上传失败：'+(d.error||''),false); return }
+      _pickTarget.input.value=d.url
+      const th=document.querySelector('[data-thumb="'+_pickTarget.key+'"]')
+      if(th){ th.src=d.url; th.classList.add('show') }
+      livePreview()
+    }catch(err){ msg($('#saveMsg'),'上传失败：'+err.message,false) }
+    finally{ inp.value='' }
+  }
+  reader.readAsDataURL(file)
+})
+
+/* ---- 登录 ---- */
+async function doLogin(){
+  const pwd = $('#pwd').value
+  const r = await fetch(api+'/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({password:pwd})})
+  const d = await r.json()
+  if(d.ok){ $('#login').classList.add('hidden'); $('#panel').classList.remove('hidden'); load(); loadPosts() }
+  else msg($('#loginMsg'), d.error||'登录失败', false)
+}
+
+/* ---- 加载配置 ---- */
+async function load(){
+  const r = await fetch(api+'/settings')
+  if(!r.ok){ msg(null,'读取配置失败',false); return }
+  S = await r.json()
+  s = JSON.parse(JSON.stringify(S))
+  fillForm()
+}
+
+function fillForm(){
+  const set=(k,v)=>{const el=$('[data-k="'+k+'"]');if(el)el.value=v??""}
+  const setLines=(k,arr)=>{const el=$('[data-lines="'+k+'"]');if(el)el.value=(arr||[]).join('\n')}
+  const setChk=(k,v)=>{const el=$('[data-chk="'+k+'"]');if(el)el.checked=!!v}
+  set('siteMeta.title',S.siteMeta.title);set('siteMeta.site',S.siteMeta.site);set('siteMeta.description',S.siteMeta.description)
+  set('siteMeta.logo',S.siteMeta.logo);set('siteMeta.author.name',S.siteMeta.author.name);set('siteMeta.author.cover',S.siteMeta.author.cover)
+  set('siteMeta.author.email',S.siteMeta.author.email);set('icp',S.icp);set('since',S.since);set('postSize',S.postSize);set('siteMeta.lang',S.siteMeta?.lang||'')
+  set('about.heroTitle',S.about.heroTitle);set('about.heroSubSuffix',S.about.heroSubSuffix)
+  setLines('about.interests',S.about.interests);setLines('about.why',S.about.why)
+  set('techshare.title',S.techshare.title);setLines('techshare.categories',S.techshare.categories)
+  setChk('rewardData.enable',S.rewardData.enable);set('rewardData.wechat',S.rewardData.wechat);set('rewardData.alipay',S.rewardData.alipay)
+  setChk('comment.enable',S.comment.enable);set('comment.type',S.comment.type)
+  set('comment.twikoo.js',S.comment.twikoo.js);set('comment.twikoo.envId',S.comment.twikoo.envId);set('comment.twikoo.lang',S.comment.twikoo.lang);set('comment.twikoo.region',S.comment?.twikoo?.region||'');set('comment.artalk.site',S.comment?.artalk?.site||'');set('comment.artalk.server',S.comment?.artalk?.server||'')
+  setChk('aside.hello.enable',S.aside?.hello?.enable);set('aside.hello.text',S.aside?.hello?.text||'')
+  setChk('aside.toc.enable',S.aside?.toc?.enable);setChk('aside.tags.enable',S.aside?.tags?.enable)
+  setChk('aside.countDown.enable',S.aside?.countDown?.enable);setChk('aside.siteData.enable',S.aside?.siteData?.enable);set('aside.countDown.data.name',S.aside?.countDown?.data?.name||'');set('aside.countDown.data.date',S.aside?.countDown?.data?.date||'')
+  setChk('cover.twoColumns',S.cover?.twoColumns);setChk('cover.showCover.enable',S.cover?.showCover?.enable)
+  set('cover.showCover.coverLayout',S.cover?.showCover?.coverLayout||'left')
+  set('cover.showCover.defaultCover.0',S.cover?.showCover?.defaultCover?.[0]||'')
+  set('banner.title',S.banner?.title||'');set('banner.subtitleMode',S.banner?.subtitleMode||'hitokoto')
+  set('banner.subtitle',S.banner?.subtitle||'');set('banner.background',S.banner?.background||'')
+  set('banner.height',S.banner?.height||'half')
+  set('navBar.siteName',S.navBar?.siteName||'')
+  setChk('navBar.menuItems.0.visible',S.navBar?.menuItems?.[0]?.visible!==false)
+  setChk('navBar.menuItems.1.visible',S.navBar?.menuItems?.[1]?.visible!==false)
+  setChk('navBar.menuItems.2.visible',S.navBar?.menuItems?.[2]?.visible!==false)
+  setChk('navBar.menuItems.3.visible',S.navBar?.menuItems?.[3]?.visible!==false)
+  setChk('navBar.rightButtons.travellings.visible',S.navBar?.rightButtons?.travellings?.visible!==false)
+  set('navBar.rightButtons.travellings.title',S.navBar?.rightButtons?.travellings?.title||'')
+  set('navBar.rightButtons.travellings.url',S.navBar?.rightButtons?.travellings?.url||'')
+  setChk('navBar.rightButtons.shuffle.visible',S.navBar?.rightButtons?.shuffle?.visible!==false)
+  set('navBar.rightButtons.shuffle.title',S.navBar?.rightButtons?.shuffle?.title||'')
+  setChk('navBar.rightButtons.search.visible',S.navBar?.rightButtons?.search?.visible!==false)
+  set('navBar.rightButtons.search.title',S.navBar?.rightButtons?.search?.title||'')
+  setChk('navBar.rightButtons.control.visible',S.navBar?.rightButtons?.control?.visible!==false)
+  set('navBar.rightButtons.control.title',S.navBar?.rightButtons?.control?.title||'')
+  setChk('navBar.rightButtons.backToTop.visible',S.navBar?.rightButtons?.backToTop?.visible!==false)
+  set('navBar.rightButtons.backToTop.title',S.navBar?.rightButtons?.backToTop?.title||'')
+  // 音乐 / 搜索
+  setChk('music.enable',S.music?.enable)
+  set('music.url',S.music?.url||'');set('music.id',S.music?.id??'')
+  set('music.server',S.music?.server||'netease');set('music.type',S.music?.type||'playlist')
+  setChk('search.enable',S.search?.enable)
+  set('search.appId',S.search?.appId||'');set('search.apiKey',S.search?.apiKey||'')
+  // 友链圈子
+  set('friends.circleOfFriends',S.friends?.circleOfFriends||'')
+  set('friends.dynamicLink.server',S.friends?.dynamicLink?.server||'')
+  set('friends.dynamicLink.app_token',S.friends?.dynamicLink?.app_token||'')
+  set('friends.dynamicLink.table_id',S.friends?.dynamicLink?.table_id||'')
+  // 统计 / 灯箱
+  set('tongji.51la',S.tongji?.['51la']||'')
+  setChk('fancybox.enable',S.fancybox?.enable!==false)
+  set('fancybox.js',S.fancybox?.js||'');set('fancybox.css',S.fancybox?.css||'')
+  // 外链跳转
+  setChk('jumpRedirect.enable',S.jumpRedirect?.enable!==false)
+  setLines('jumpRedirect.exclude',S.jumpRedirect?.exclude||[])
+  // 列表兜底
+  s.about.contact=s.about.contact||[]
+  s.linkData=s.linkData||[]
+  renderSkills();renderTimeline();renderAboutProjects();renderProjects();renderSocial()
+  renderContact();renderLinkData()
+  renderNav();renderSitemap();renderInject();renderNavMore()
+  origAdv = JSON.stringify(S,null,2); $('#advJson').value = origAdv
+  livePreview()
+}
+
+/* ========== 通用增删列表渲染 ========== */
+function makeListBox(containerId, makeCard, onChange){
+  const box = $(containerId)
+  function render(){
+    box.innerHTML = ''
+    makeCard(box, s)
+    const add = document.createElement('button'); add.type='button'; add.className='btn-add'; add.textContent='+ 添加'
+    add.onclick = () => { onChange(s); render() }
+    box.appendChild(add)
+  }
+  return render
+}
+
+/* ---------- 技能组 ---------- */
+function renderSkills(){
+  const box = $('#skillsList'); box.innerHTML=''
+  s.about.skills.forEach((g,i)=>{
+    const card=document.createElement('div');card.className='group-card'
+    card.innerHTML=`<div class="group-card-head"><span class="g-label">技能组 #${i+1}</span>${mvBtns('skillsList','.group-card')}<button type="button" class="btn small danger">删除</button></div>
+      <div class="row2">
+        <div class="fld"><label>组名</label><input type="text" class="sk-title" value="${esc(g.title||'')}"></div>
+        <div class="fld" style="flex:2"><label>技能（每行一个）</label><textarea class="sk-items" style="min-height:52px">${esc((g.items||[]).join('\n'))}</textarea></div>
+      </div>`
+    card.querySelector('button').onclick=()=>{s.about.skills.splice(i,1);renderSkills()}
+    box.appendChild(card)
+  })
+  const add=document.createElement('button');add.type='button';add.className='btn-add';add.textContent='+ 添加技能组'
+  add.onclick=()=>{s.about.skills.push({title:'',items:[]});renderSkills()}
+  box.appendChild(add)
+}
+
+/* ---------- 时间线 ---------- */
+function renderTimeline(){
+  const box=$('#timelineList');box.innerHTML=''
+  ;(s.about.timeline||[]).forEach((t,i)=>{
+    const card=document.createElement('div');card.className='item-card'
+    card.innerHTML=`<div class="item-card-head"><span class="i-label">时间线 #${i+1}</span>${mvBtns('timelineList','.item-card')}<button type="button" class="btn small danger">删除</button></div>
+      <div class="row2">
+        <div class="fld"><label>时间</label><input type="text" class="tl-time" value="${esc(t.time||'')}" placeholder="2024-01"></div>
+        <div class="fld"><label>事件</label><input type="text" class="tl-event" value="${esc(t.event||'')}" placeholder="发生了什么…"></div>
+      </div>`
+    card.querySelector('button').onclick=()=>{s.about.timeline.splice(i,1);renderTimeline()}
+    box.appendChild(card)
+  })
+  const add=document.createElement('button');add.type='button';add.className='btn-add';add.textContent='+ 添加时间线'
+  add.onclick=()=>{s.about.timeline.push({time:'',event:''});renderTimeline()}
+  box.appendChild(add)
+}
+
+/* ---------- 关于页项目 ---------- */
+function renderAboutProjects(){
+  const box=$('#aboutProjectsList');box.innerHTML=''
+  ;(s.about.projects||[]).forEach((p,i)=>{
+    const card=document.createElement('div');card.className='item-card'
+    card.innerHTML=`<div class="item-card-head"><span class="i-label">项目 #${i+1}</span>${mvBtns('aboutProjectsList','.item-card')}<button type="button" class="btn small danger">删除</button></div>
+      <div class="row2">
+        <div class="fld"><label>图标（emoji）</label><input type="text" class="ap-icon" value="${esc(p.icon||'')}"></div>
+        <div class="fld"><label>名称</label><input type="text" class="ap-name" value="${esc(p.name||'')}"></div>
+      </div>
+      <div class="fld"><label>描述</label><textarea class="ap-desc" style="min-height:50px">${esc(p.desc||'')}</textarea></div>
+      <div class="fld"><label>标签（每行一个）</label><textarea class="ap-tags" style="min-height:44px">${esc((p.tags||[]).join('\n'))}</textarea></div>
+      <div class="fld"><label>颜色</label>
+        <select class="ap-color">${['blue','purple','orange','green','red','teal'].map(c=>`<option value="${c}" ${p.color===c?'selected':''}>${c}</option>`).join('')}</select>
+      </div>`
+    card.querySelector('button').onclick=()=>{s.about.projects.splice(i,1);renderAboutProjects()}
+    box.appendChild(card)
+  })
+  const add=document.createElement('button');add.type='button';add.className='btn-add';add.textContent='+ 添加项目'
+  add.onclick=()=>{s.about.projects.push({icon:'',name:'',desc:'',tags:[],color:'blue'});renderAboutProjects()}
+  box.appendChild(add)
+}
+
+/* ---------- 我的项目 ---------- */
+function renderProjects(){
+  const box=$('#projectsList');box.innerHTML=''
+  ;(s.projects||[]).forEach((p,i)=>{
+    const card=document.createElement('div');card.className='item-card'
+    const linksHtml=(p.links||[]).map((l,j)=>`<div class="links-row"><input type="text" class="pr-lt" placeholder="文字" value="${esc(l.text||'')}"><input type="text" class="pr-lu" placeholder="https://..." value="${esc(l.url||'')}"><button type="button" class="pr-ldel">×</button></div>`).join('')
+    card.innerHTML=`<div class="item-card-head"><span class="i-label">项目 #${i+1}</span>${mvBtns('projectsList','.item-card')}<button type="button" class="btn small danger">删除</button></div>
+      <div class="row2">
+        <div class="fld"><label>图标（emoji）</label><input type="text" class="pr-icon" value="${esc(p.icon||'')}"></div>
+        <div class="fld"><label>名称</label><input type="text" class="pr-name" value="${esc(p.name||'')}"></div>
+      </div>
+      <div class="fld"><label>描述</label><textarea class="pr-desc" style="min-height:50px">${esc(p.desc||'')}</textarea></div>
+      <div class="fld"><label>标签（每行一个）</label><textarea class="pr-tags" style="min-height:44px">${esc((p.tags||[]).join('\n'))}</textarea></div>
+      <div class="row2">
+        <div class="fld"><label>状态</label>
+          <select class="pr-status">${[['live','已上线'],['dev','开发中'],['maint','维护中'],['oss','开源']].map(o=>`<option value="${o[0]}" ${p.status===o[0]?'selected':''}>${o[1]}</option>`).join('')}</select>
+        </div>
+        <div class="fld"><label>链接</label>
+          <div class="pr-links-box">${linksHtml||'<div class="links-row" style="color:var(--muted);font-size:.78rem;padding:.2rem 0">暂无链接</div>'}</div>
+          <button type="button" class="btn small" style="margin-top:.3rem">+ 添加链接</button>
+        </div>
+      </div>`
+    const linksBox=card.querySelector('.pr-links-box')
+    function renderLinks(){
+      linksBox.innerHTML=''
+      ;(p.links||[]).forEach((l,j)=>{
+        const row=document.createElement('div');row.className='links-row'
+        row.innerHTML=`<input type="text" class="pr-lt" placeholder="文字" value="${esc(l.text||'')}"><input type="text" class="pr-lu" placeholder="https://..." value="${esc(l.url||'')}"><button type="button" class="pr-ldel">×</button>`
+        row.querySelector('.pr-ldel').onclick=()=>{p.links.splice(j,1);renderLinks()}
+        linksBox.appendChild(row)
+      })
+      if(!(p.links&&p.links.length)) linksBox.innerHTML='<div style="color:var(--muted);font-size:.78rem;padding:.2rem 0">暂无链接</div>'
+    }
+    card.querySelector('.btn.small:last-child').onclick=()=>{p.links=p.links||[];p.links.push({text:'',url:''});renderLinks()}
+    card.querySelector('button.danger').onclick=()=>{s.projects.splice(i,1);renderProjects()}
+    box.appendChild(card)
+  })
+  const add=document.createElement('button');add.type='button';add.className='btn-add';add.textContent='+ 添加项目'
+  add.onclick=()=>{s.projects.push({name:'',icon:'',desc:'',tags:[],status:'live',links:[]});renderProjects()}
+  box.appendChild(add)
+}
+
+/* ---------- 社交 ---------- */
+function renderSocial(){
+  const box=$('#socialList');box.innerHTML=''
+  ;(s.footer.social||[]).forEach((x,i)=>{
+    const card=document.createElement('div');card.className='item-card'
+    card.innerHTML=`<div class="item-card-head"><span class="i-label">社交 #${i+1}</span>${mvBtns('socialList','.item-card')}<button type="button" class="btn small danger">删除</button></div>
+      <div class="row2">
+        <div class="fld"><label>图标名</label><input type="text" class="so-icon" value="${esc(x.icon||'')}" placeholder="github / qq / bilibili / email…"></div>
+        <div class="fld"><label>链接</label><input type="text" class="so-link" value="${esc(x.link||'')}" placeholder="https://..."></div>
+      </div>
+      <div class="row2">
+        <div class="fld"><label>标题（可选）</label><input type="text" class="so-title" value="${esc(x.title||'')}"></div>
+        <div class="fld"><label>副标题（可选）</label><input type="text" class="so-sub" value="${esc(x.subtitle||'')}"></div>
+      </div>
+      <div class="fld"><label class="chk-row"><input type="checkbox" class="so-qr" ${x.isQRCode?'checked':''}> 是二维码图片</label></div>`
+    card.querySelector('button.danger').onclick=()=>{s.footer.social.splice(i,1);renderSocial()}
+    box.appendChild(card)
+  })
+  const add=document.createElement('button');add.type='button';add.className='btn-add';add.textContent='+ 添加社交项'
+  add.onclick=()=>{s.footer.social.push({icon:'',link:''});renderSocial()}
+  box.appendChild(add)
+}
+
+/* ---------- 联系我 ---------- */
+function renderContact(){
+  const box=$('#contactList'); if(!box) return
+  box.innerHTML=''
+  ;(s.about.contact||[]).forEach((c,i)=>{
+    const card=document.createElement('div');card.className='item-card'
+    card.innerHTML=`<div class="item-card-head"><span class="i-label">联系方式 #${i+1}</span>${mvBtns('contactList','.item-card')}<button type="button" class="btn small danger">删除</button></div>
+      <div class="row2">
+        <div class="fld"><label>标签</label><input type="text" class="ct-label" value="${esc(c.label||'')}" placeholder="邮箱 / GitHub / QQ / 微信…"></div>
+        <div class="fld"><label>显示的值</label><input type="text" class="ct-value" value="${esc(c.value||'')}" placeholder="871282523"></div>
+      </div>
+      <div class="fld"><label>链接（留空则只显示文字）</label><input type="text" class="ct-link" value="${esc(c.link||'')}" placeholder="https://… 或 mailto:xxx@xx.com"></div>`
+    card.querySelector('button.danger').onclick=()=>{s.about.contact.splice(i,1);renderContact()}
+    box.appendChild(card)
+  })
+  const add=document.createElement('button');add.type='button';add.className='btn-add';add.textContent='+ 添加联系方式'
+  add.onclick=()=>{s.about.contact=s.about.contact||[];s.about.contact.push({label:'',value:'',link:''});renderContact()}
+  box.appendChild(add)
+}
+
+/* ---------- 友链名单 ---------- */
+function renderLinkData(){
+  const box=$('#linkDataList'); if(!box) return
+  box.innerHTML=''
+  ;(s.linkData||[]).forEach((g,i)=>{
+    const card=document.createElement('div');card.className='group-card'
+    const itemsHtml=(g.typeList||[]).map((l,j)=>`<div class="item-card">
+      <div class="item-card-head"><span class="i-label">站点 #${j+1}</span><button type="button" class="ld-i-del">删除</button></div>
+      <div class="row2">
+        <div class="fld"><label>名称</label><input type="text" class="ld-i-name" value="${esc(l.name||'')}" placeholder="站名"></div>
+        <div class="fld"><label>网址</label><input type="text" class="ld-i-url" value="${esc(l.url||'')}" placeholder="https://…"></div>
+      </div>
+      <div class="row2">
+        <div class="fld"><label>头像图片地址</label><input type="text" class="ld-i-avatar" value="${esc(l.avatar||'')}" placeholder="https://…/avatar.png"></div>
+        <div class="fld"><label>简介</label><input type="text" class="ld-i-desc" value="${esc(l.desc||'')}" placeholder="一句话介绍"></div>
+      </div>
+    </div>`).join('')
+    card.innerHTML=`<div class="group-card-head"><span class="g-label">分组 #${i+1}</span>${mvBtns('linkDataList','.group-card')}<button type="button" class="btn small danger ld-g-del">删除分组</button></div>
+      <div class="row2">
+        <div class="fld"><label>分组标识（英文）</label><input type="text" class="ld-type" value="${esc(g.type||'')}" placeholder="rec / friends"></div>
+        <div class="fld"><label>分组名</label><input type="text" class="ld-name" value="${esc(g.typeName||'')}" placeholder="推荐 / 小伙伴们"></div>
+      </div>
+      <div class="fld"><label>分组说明</label><input type="text" class="ld-desc" value="${esc(g.typeDesc||'')}" placeholder="都是大佬，推荐关注"></div>
+      <div class="ld-items">${itemsHtml||'<div style="color:var(--muted);font-size:.78rem;padding:.2rem 0">该分组还没有站点</div>'}</div>
+      <button type="button" class="btn small ld-add-item">+ 添加站点</button>`
+    card.querySelector('.ld-g-del').onclick=()=>{s.linkData.splice(i,1);renderLinkData()}
+    card.querySelector('.ld-add-item').onclick=()=>{g.typeList=g.typeList||[];g.typeList.push({name:'',avatar:'',desc:'',url:''});renderLinkData()}
+    card.querySelectorAll('.ld-i-del').forEach((b,j)=>{
+      b.onclick=()=>{g.typeList=g.typeList||[];g.typeList.splice(j,1);renderLinkData()}
+    })
+    box.appendChild(card)
+  })
+  const add=document.createElement('button');add.type='button';add.className='btn-add';add.textContent='+ 添加分组'
+  add.onclick=()=>{s.linkData=s.linkData||[];s.linkData.push({type:'friends',typeName:'',typeDesc:'',typeList:[]});renderLinkData()}
+  box.appendChild(add)
+}
+
+/* ---------- 导航菜单（nav） ---------- */
+function renderNav(){
+  const box=$('#navList');box.innerHTML=''
+  ;(s.nav||[]).forEach((g,i)=>{
+    const card=document.createElement('div');card.className='group-card'
+    card.innerHTML=`<div class="group-card-head"><span class="g-label">分组 #${i+1}</span>${mvBtns('navList','.group-card')}<button type="button" class="btn small danger">删除分组</button></div>
+      <div class="fld"><label>分组名称（文库 / 专栏 / 友链 / 我的）</label><input type="text" class="nav-g-name" value="${esc(g.text||'')}"></div>
+      <div class="items-box nav-items-box"></div>`
+    const itemsBox=card.querySelector('.nav-items-box')
+    function renderNavItems(){
+      itemsBox.innerHTML=''
+      ;(g.items||[]).forEach((item,j)=>{
+        const row=document.createElement('div');row.className='item-card'
+        row.innerHTML=`<div class="item-card-head" style="margin-bottom:.35rem"><span class="i-label">项目 #${j+1}</span><button type="button" class="btn small danger" style="padding:.2rem .5rem;font-size:.72rem">删除</button></div>
+          <div class="row2">
+            <div class="fld"><label>文字</label><input type="text" class="ni-text" value="${esc(item.text||'')}"></div>
+            <div class="fld"><label>链接</label><input type="text" class="ni-link" value="${esc(item.link||'')}"></div>
+          </div>
+          <div class="fld"><label>图标名（可选）</label><input type="text" class="ni-icon" value="${esc(item.icon||'')}" placeholder="article / code / heart / settings…"></div>`
+        row.querySelector('button').onclick=()=>{g.items.splice(j,1);renderNavItems()}
+        itemsBox.appendChild(row)
+      })
+      const add2=document.createElement('button');add2.type='button';add2.className='btn-add';add2.textContent='+ 添加导航项'
+      add2.onclick=()=>{g.items=g.items||[];g.items.push({text:'',link:'',icon:''});renderNavItems()}
+      itemsBox.appendChild(add2)
+    }
+    renderNavItems()
+    card.querySelector('button.danger').onclick=()=>{s.nav.splice(i,1);renderNav()}
+    box.appendChild(card)
+  })
+  const add=document.createElement('button');add.type='button';add.className='btn-add';add.textContent='+ 添加导航分组'
+  add.onclick=()=>{s.nav=s.nav||[];s.nav.push({text:'',items:[]});renderNav()}
+  box.appendChild(add)
+}
+
+/* ---------- 站点地图（sitemap） ---------- */
+function renderSitemap(){
+  const box=$('#sitemapList');box.innerHTML=''
+  ;(s.footer.sitemap||[]).forEach((g,i)=>{
+    const card=document.createElement('div');card.className='group-card'
+    card.innerHTML=`<div class="group-card-head"><span class="g-label">分组 #${i+1}</span>${mvBtns('sitemapList','.group-card')}<button type="button" class="btn small danger">删除</button></div>
+      <div class="fld"><label>分组标题</label><input type="text" class="sm-title" value="${esc(g.text||'')}"></div>
+      <div class="sm-items-box"></div>`
+    const itemsBox=card.querySelector('.sm-items-box')
+    function renderSmItems(){
+      itemsBox.innerHTML=''
+      ;(g.items||[]).forEach((item,j)=>{
+        const row=document.createElement('div');row.className='item-card'
+        row.innerHTML=`<div class="item-card-head"><span class="i-label">链接 #${j+1}</span><button type="button" class="btn small danger" style="padding:.2rem .5rem;font-size:.72rem">删除</button></div>
+          <div class="row2">
+            <div class="fld"><label>文字</label><input type="text" class="sm-i-text" value="${esc(item.text||'')}"></div>
+            <div class="fld"><label>链接</label><input type="text" class="sm-i-link" value="${esc(item.link||'')}"></div>
+          </div>
+          <div class="fld"><label class="chk-row" style="margin-top:.2rem"><input type="checkbox" class="sm-i-newtab" ${item.newTab?'checked':''}> 新窗口打开</label></div>`
+        row.querySelector('button').onclick=()=>{g.items.splice(j,1);renderSmItems()}
+        itemsBox.appendChild(row)
+      })
+      const add2=document.createElement('button');add2.type='button';add2.className='btn-add';add2.textContent='+ 添加链接'
+      add2.onclick=()=>{g.items=g.items||[];g.items.push({text:'',link:''});renderSmItems()}
+      itemsBox.appendChild(add2)
+    }
+    renderSmItems()
+    card.querySelector('button.danger').onclick=()=>{s.footer.sitemap.splice(i,1);renderSitemap()}
+    box.appendChild(card)
+  })
+  const add=document.createElement('button');add.type='button';add.className='btn-add';add.textContent='+ 添加站点地图分组'
+  add.onclick=()=>{s.footer.sitemap=s.footer.sitemap||[];s.footer.sitemap.push({text:'',items:[]});renderSitemap()}
+  box.appendChild(add)
+}
+
+/* ---------- 头部注入（inject.header） ---------- */
+function renderInject(){
+  const box=$('#injectList');box.innerHTML=''
+  const items = s.inject?.header || []
+  items.forEach((item,i)=>{
+    const tag=item[0]||'link'
+    const attrs=item[1]||{}
+    const card=document.createElement('div');card.className='item-card'
+    card.innerHTML=`<div class="item-card-head"><span class="i-label">注入项 #${i+1}</span>${mvBtns('injectList','.item-card')}<button type="button" class="btn small danger">删除</button></div>
+      <div class="row2">
+        <div class="fld"><label>HTML 标签</label><input type="text" class="in-tag" value="${esc(tag)}" placeholder="link / script / meta…"></div>
+        <div class="fld"><label>属性 JSON</label><textarea class="in-attrs" style="min-height:44px;font-family:ui-monospace,monospace;font-size:.82rem">${esc(JSON.stringify(attrs,null,2))}</textarea></div>
+      </div>
+      <div style="margin-top:.3rem;font-size:.72rem;color:var(--muted)">预览：&lt;${esc(tag)} ${Object.keys(attrs).slice(0,3).map(k=>esc(k)+'="…"+').join(' ')}&gt;</div>`
+    card.querySelector('button.danger').onclick=()=>{s.inject.header.splice(i,1);renderInject()}
+    box.appendChild(card)
+  })
+  const add=document.createElement('button');add.type='button';add.className='btn-add';add.textContent='+ 添加注入项'
+  add.onclick=()=>{s.inject=s.inject||{header:[]};s.inject.header=s.inject.header||[];s.inject.header.push(['link',{}]);renderInject()}
+  box.appendChild(add)
+}
+
+/* ---------- 更多导航（navMore） ---------- */
+function renderNavMore(){
+  const box=$('#navMoreList');box.innerHTML=''
+  ;(s.navMore||[]).forEach((g,i)=>{
+    const card=document.createElement('div');card.className='group-card'
+    card.innerHTML=`<div class="group-card-head"><span class="g-label">分组 #${i+1}</span>${mvBtns('navMoreList','.group-card')}<button type="button" class="btn small danger">删除</button></div>
+      <div class="fld"><label>分组名称（下拉菜单标题）</label><input type="text" class="nm-name" value="${esc(g.name||'')}"></div>
+      <div class="nm-items-box"></div>`
+    const itemsBox=card.querySelector('.nm-items-box')
+    function renderNmItems(){
+      itemsBox.innerHTML=''
+      ;(g.list||[]).forEach((item,j)=>{
+        const row=document.createElement('div');row.className='item-card'
+        row.innerHTML=`<div class="item-card-head"><span class="i-label">项 #${j+1}</span><button type="button" class="btn small danger" style="padding:.2rem .5rem;font-size:.72rem">删除</button></div>
+          <div class="row2">
+            <div class="fld"><label>名称</label><input type="text" class="nm-i-name" value="${esc(item.name||'')}"></div>
+            <div class="fld"><label>URL</label><input type="text" class="nm-i-url" value="${esc(item.url||'')}"></div>
+          </div>
+          <div class="fld"><label>SVG 图标（可选，完整 SVG 代码）</label><textarea class="nm-i-icon" style="min-height:44px;font-family:ui-monospace,monospace;font-size:.82rem">${esc(item.iconSvg||'')}</textarea></div>`
+        row.querySelector('button').onclick=()=>{g.list.splice(j,1);renderNmItems()}
+        itemsBox.appendChild(row)
+      })
+      const add2=document.createElement('button');add2.type='button';add2.className='btn-add';add2.textContent='+ 添加子项'
+      add2.onclick=()=>{g.list=g.list||[];g.list.push({name:'',url:'',iconSvg:''});renderNmItems()}
+      itemsBox.appendChild(add2)
+    }
+    renderNmItems()
+    card.querySelector('button.danger').onclick=()=>{s.navMore.splice(i,1);renderNavMore()}
+    box.appendChild(card)
+  })
+  const add=document.createElement('button');add.type='button';add.className='btn-add';add.textContent='+ 添加分组'
+  add.onclick=()=>{s.navMore=s.navMore||[];s.navMore.push({name:'',list:[]});renderNavMore()}
+  box.appendChild(add)
+}
+
+/* ---------- 收集表单 ---------- */
+function collectForm(){
+  const g=k=>{const el=$('[data-k="'+k+'"]');return el?el.value:''}
+  const gLines=k=>{const el=$('[data-lines="'+k+'"]');return el?el.value.split('\n').map(x=>x.trim()).filter(Boolean):[]}
+  const gChk=k=>{const el=$('[data-chk="'+k+'"]');return el?el.checked:false}
+  s.siteMeta.title=g('siteMeta.title');s.siteMeta.site=g('siteMeta.site');s.siteMeta.description=g('siteMeta.description')
+  s.siteMeta.logo=g('siteMeta.logo');s.siteMeta.author.name=g('siteMeta.author.name');s.siteMeta.author.cover=g('siteMeta.author.cover')
+  s.siteMeta.author.email=g('siteMeta.author.email');s.icp=g('icp');s.since=g('since');s.siteMeta.lang=g('siteMeta.lang')
+  s.postSize=Number(g('postSize'))||8
+  s.about.heroTitle=g('about.heroTitle');s.about.heroSubSuffix=g('about.heroSubSuffix')
+  s.about.interests=gLines('about.interests');s.about.why=gLines('about.why')
+  s.techshare.title=g('techshare.title');s.techshare.categories=gLines('techshare.categories')
+  s.rewardData.enable=gChk('rewardData.enable');s.rewardData.wechat=g('rewardData.wechat');s.rewardData.alipay=g('rewardData.alipay')
+  s.comment.enable=gChk('comment.enable');s.comment.type=g('comment.type')
+  s.comment.twikoo.js=g('comment.twikoo.js');s.comment.twikoo.envId=g('comment.twikoo.envId');s.comment.twikoo.lang=g('comment.twikoo.lang')
+  s.comment.twikoo.region=g('comment.twikoo.region')
+  s.comment.artalk=s.comment.artalk||{};s.comment.artalk.site=g('comment.artalk.site');s.comment.artalk.server=g('comment.artalk.server')
+  // aside
+  s.aside=s.aside||{};s.aside.hello=s.aside.hello||{};s.aside.hello.enable=gChk('aside.hello.enable');s.aside.hello.text=g('aside.hello.text')
+  s.aside.toc=s.aside.toc||{};s.aside.toc.enable=gChk('aside.toc.enable')
+  s.aside.tags=s.aside.tags||{};s.aside.tags.enable=gChk('aside.tags.enable')
+  s.aside.countDown=s.aside.countDown||{};s.aside.countDown.enable=gChk('aside.countDown.enable')
+  s.aside.countDown.data=s.aside.countDown.data||{}
+  const _cdn=g('aside.countDown.data.name'); if(_cdn) s.aside.countDown.data.name=_cdn
+  const _cdd=g('aside.countDown.data.date'); if(_cdd) s.aside.countDown.data.date=_cdd
+  s.aside.siteData=s.aside.siteData||{};s.aside.siteData.enable=gChk('aside.siteData.enable')
+  // cover
+  s.cover=s.cover||{};s.cover.twoColumns=gChk('cover.twoColumns')
+  s.cover.showCover=s.cover.showCover||{};s.cover.showCover.enable=gChk('cover.showCover.enable')
+  s.cover.showCover.coverLayout=g('cover.showCover.coverLayout')
+  s.cover.showCover.defaultCover=[g('cover.showCover.defaultCover.0')].filter(Boolean)
+  // 页眉
+  s.banner=s.banner||{};s.banner.title=g('banner.title');s.banner.subtitleMode=g('banner.subtitleMode')||'hitokoto'
+  s.banner.subtitle=g('banner.subtitle');s.banner.background=g('banner.background');s.banner.height=g('banner.height')||'half'
+  // 导航栏
+  s.navBar=s.navBar||{}
+  s.navBar.siteName=g('navBar.siteName')
+  // 菜单项可见性（仅覆盖第 0~3 个分组的 visible；新增分组走高级设置）
+  s.navBar.menuItems=s.navBar.menuItems||[]
+  for(let i=0;i<4;i++){
+    s.navBar.menuItems[i]=s.navBar.menuItems[i]||{}
+    s.navBar.menuItems[i].visible=gChk('navBar.menuItems.'+i+'.visible')
+  }
+  // 右侧按钮
+  s.navBar.rightButtons=s.navBar.rightButtons||{}
+  const rbKeys=['travellings','shuffle','search','control','backToTop']
+  rbKeys.forEach(k=>{
+    s.navBar.rightButtons[k]=s.navBar.rightButtons[k]||{}
+    s.navBar.rightButtons[k].visible=gChk('navBar.rightButtons.'+k+'.visible')
+    const t=g('navBar.rightButtons.'+k+'.title');if(t)s.navBar.rightButtons[k].title=t;else delete s.navBar.rightButtons[k].title
+    if(k==='travellings'){const u=g('navBar.rightButtons.'+k+'.url');if(u)s.navBar.rightButtons[k].url=u;else delete s.navBar.rightButtons[k].url}
+  })
+  // 音乐 / 搜索
+  s.music=s.music||{}
+  s.music.enable=gChk('music.enable');s.music.url=g('music.url')
+  const mid=g('music.id');s.music.id=(mid!==''&&/^-?\d+$/.test(mid))?Number(mid):mid
+  s.music.server=g('music.server')||'netease';s.music.type=g('music.type')||'playlist'
+  s.search=s.search||{}
+  s.search.enable=gChk('search.enable');s.search.appId=g('search.appId');s.search.apiKey=g('search.apiKey')
+  // 友链圈子
+  s.friends=s.friends||{}
+  s.friends.circleOfFriends=g('friends.circleOfFriends')
+  s.friends.dynamicLink={server:g('friends.dynamicLink.server'),app_token:g('friends.dynamicLink.app_token'),table_id:g('friends.dynamicLink.table_id')}
+  // 统计 / 灯箱
+  s.tongji={'51la':g('tongji.51la')}
+  s.fancybox=s.fancybox||{}
+  s.fancybox.enable=gChk('fancybox.enable');s.fancybox.js=g('fancybox.js');s.fancybox.css=g('fancybox.css')
+  // 外链跳转
+  s.jumpRedirect=s.jumpRedirect||{}
+  s.jumpRedirect.enable=gChk('jumpRedirect.enable');s.jumpRedirect.exclude=gLines('jumpRedirect.exclude')
+  // 联系我
+  s.about.contact=[...$$('#contactList .item-card')].map(c=>({
+    label:c.querySelector('.ct-label').value,value:c.querySelector('.ct-value').value,link:c.querySelector('.ct-link').value
+  })).filter(x=>x.label||x.value||x.link)
+  // 友链名单
+  s.linkData=[...$$('#linkDataList .group-card')].map(c=>({
+    type:c.querySelector('.ld-type').value,typeName:c.querySelector('.ld-name').value,typeDesc:c.querySelector('.ld-desc').value,
+    typeList:[...c.querySelectorAll('.ld-items .item-card')].map(r=>({
+      name:r.querySelector('.ld-i-name').value,avatar:r.querySelector('.ld-i-avatar').value,
+      desc:r.querySelector('.ld-i-desc').value,url:r.querySelector('.ld-i-url').value
+    })).filter(x=>x.name||x.url)
+  }))
+  // 技能组
+  s.about.skills=[...$$('#skillsList .group-card')].map(c=>({title:c.querySelector('.sk-title').value,items:c.querySelector('.sk-items').value.split('\n').map(x=>x.trim()).filter(Boolean)}))
+  // 时间线
+  s.about.timeline=[...$$('#timelineList .item-card')].map(c=>({time:c.querySelector('.tl-time').value,event:c.querySelector('.tl-event').value}))
+  // 关于页项目
+  s.about.projects=[...$$('#aboutProjectsList .item-card')].map(c=>({icon:c.querySelector('.ap-icon').value,name:c.querySelector('.ap-name').value,desc:c.querySelector('.ap-desc').value,tags:c.querySelector('.ap-tags').value.split('\n').map(x=>x.trim()).filter(Boolean),color:c.querySelector('.ap-color').value}))
+  // 我的项目
+  s.projects=[...$$('#projectsList .item-card')].map(c=>{
+    const links=[...c.querySelectorAll('.links-row')].map(r=>({text:r.querySelector('.pr-lt').value,url:r.querySelector('.pr-lu').value})).filter(l=>l.text||l.url)
+    return{name:c.querySelector('.pr-name').value,icon:c.querySelector('.pr-icon').value,desc:c.querySelector('.pr-desc').value,tags:c.querySelector('.pr-tags').value.split('\n').map(x=>x.trim()).filter(Boolean),status:c.querySelector('.pr-status').value,links}
+  })
+  // 社交
+  s.footer.social=[...$$('#socialList .item-card')].map(c=>{
+    const o={icon:c.querySelector('.so-icon').value,link:c.querySelector('.so-link').value}
+    const t=c.querySelector('.so-title').value;if(t)o.title=t
+    const sb=c.querySelector('.so-sub').value;if(sb)o.subtitle=sb
+    if(c.querySelector('.so-qr').checked)o.isQRCode=true
+    return o
+  })
+  // 导航
+  s.nav=[...$$('#navList .group-card')].map(c=>({text:c.querySelector('.nav-g-name').value,items:[...c.querySelectorAll('.item-card')].map(r=>({text:r.querySelector('.ni-text').value,link:r.querySelector('.ni-link').value,icon:r.querySelector('.ni-icon').value}))}))
+  // 站点地图
+  s.footer.sitemap=[...$$('#sitemapList .group-card')].map(c=>({text:c.querySelector('.sm-title').value,items:[...c.querySelectorAll('.item-card')].map(r=>({text:r.querySelector('.sm-i-text').value,link:r.querySelector('.sm-i-link').value,newTab:!!r.querySelector('.sm-i-newtab').checked}))}))
+  // 头部注入
+  s.inject=s.inject||{header:[]};s.inject.header=[...$$('#injectList .item-card')].map(c=>{
+    try{return[c.querySelector('.in-tag').value,JSON.parse(c.querySelector('.in-attrs').value)]}catch(e){return[c.querySelector('.in-tag').value,{}]}
+  })
+  // navMore
+  s.navMore=[...$$('#navMoreList .group-card')].map(c=>({name:c.querySelector('.nm-name').value,list:[...c.querySelectorAll('.item-card')].map(r=>({name:r.querySelector('.nm-i-name').value,url:r.querySelector('.nm-i-url').value,iconSvg:r.querySelector('.nm-i-icon').value}))}))
+}
+
+/* ---------- 保存 ---------- */
+async function doSave(){
+  const cur=$('#advJson').value
+  let payload
+  if(cur!==origAdv){
+    try{payload=JSON.parse(cur)}catch(e){msg(null,'高级 JSON 格式错误：'+e.message,false);return}
+  }else{
+    try{collectForm();payload=s}catch(e){
+      msg(null,'表单收集出错（'+e.message+'），请按 F12 查看控制台红色报错',false)
+      console.error(e);return
+    }
+  }
+  try{
+    const r=await fetch(api+'/settings',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload,null,2)})
+    const d=await r.json()
+    if(d.ok){
+      msg(null,'✅ 已保存，刷新前台页面即可生效',true)
+      origAdv=JSON.stringify(payload,null,2);$('#advJson').value=origAdv;S=JSON.parse(JSON.stringify(payload))
+    }else msg(null,'❌ '+(d.error||'保存失败'),false)
+  }catch(e){msg(null,'❌ 网络错误：'+e.message,false)}
+}
+
+/* ---------- 文章管理 ---------- */
+let POST_POOL=[]
+/* ---- 分类 / 标签：点选式 ---- */
+function chipInput(kind){ return kind==='categories'?$('#pe-categories'):$('#pe-tags') }
+function chipList(kind){ return chipInput(kind).value.split(/[,，]/).map(x=>x.trim()).filter(Boolean) }
+function setChipList(kind,arr){ chipInput(kind).value=arr.join(', '); renderChips() }
+function collectPool(){
+  const c=[],t=[]
+  ;(POST_POOL||[]).forEach(p=>{
+    (p.categories||[]).forEach(x=>{x=String(x||'').trim(); if(x&&!c.includes(x))c.push(x)})
+    ;(p.tags||[]).forEach(x=>{x=String(x||'').trim(); if(x&&!t.includes(x))t.push(x)})
+  })
+  return {cats:c,tags:t}
+}
+function renderChips(){
+  if(!$('#pe-cat-box')) return
+  const pool=collectPool()
+  renderOneBox('categories',pool.cats)
+  renderOneBox('tags',pool.tags)
+}
+function renderOneBox(kind,pool){
+  const box=$(kind==='categories'?'#pe-cat-box':'#pe-tag-box')
+  if(!box) return
+  const cur=chipList(kind)
+  let h=''
+  cur.forEach(v=>{h+='<span class="chip on" data-kind="'+kind+'" data-v="'+esc(v)+'">'+esc(v)+' <b>&times;</b></span>'})
+  pool.filter(v=>!cur.includes(v)).forEach(v=>{h+='<span class="chip" data-kind="'+kind+'" data-v="'+esc(v)+'">'+esc(v)+' <b>+</b></span>'})
+  box.innerHTML = h || '<span class="note" style="margin:0">还没有可选项，直接在下面输入后回车即可</span>'
+  box.querySelectorAll('.chip').forEach(el=>{
+    el.onclick=()=>{
+      const k=el.getAttribute('data-kind'), v=el.getAttribute('data-v')
+      let arr=chipList(k)
+      if(arr.includes(v)) arr=arr.filter(x=>x!==v); else arr.push(v)
+      setChipList(k,arr)
+    }
+  })
+}
+function commitChipInput(kind){
+  const el=chipInput(kind); if(!el||!el.value.trim()) return
+  let arr=chipList(kind)
+  chipList(kind).forEach(v=>{ if(!arr.includes(v)) arr.push(v) })
+  el.value=arr.join(', ')
+  renderChips()
+}
+async function loadPosts(){
+  const r=await fetch(api+'/posts')
+  if(!r.ok)return
+  const d=await r.json()
+  const posts=d.posts||[];POST_POOL=posts;const tb=$('#postRows');tb.innerHTML=''
+  renderChips()
+  $('#postEmpty').style.display=posts.length?'none':'block'
+  posts.forEach(p=>{
+    const tr=document.createElement('tr');tr.style.borderTop='1px solid var(--border)'
+    tr.innerHTML=`<td style="padding:.5rem">${esc(p.title||'')}</td>
+      <td style="padding:.5rem;color:var(--muted);font-size:.82rem">${esc(p.date||'')}</td>
+      <td style="padding:.5rem;font-size:.82rem">${esc((p.categories||[]).join(' / '))}</td>
+      <td style="padding:.5rem;font-size:.82rem;color:var(--muted)">${esc((p.tags||[]).join(', '))}</td>
+      <td style="padding:.5rem;white-space:nowrap">
+        <button class="btn small" onclick="editPost('${p.file}')">编辑</button>
+        <button class="btn small danger" onclick="deletePost('${p.file}')">删除</button>
+      </td>`
+    tb.appendChild(tr)
+  })
+}
+async function editPost(file){
+  const r=await fetch(api+'/post?file='+encodeURIComponent(file));const d=await r.json()
+  if(!d.ok){msg($('#postMsg'),'读取文章失败',false);return}
+  const p=d.post
+  $('#pe-file').value=p.file||'';$('#pe-title').value=p.title||'';$('#pe-date').value=p.date||''
+  $('#pe-slug').value=(p.file||'').split('/').pop().replace(/^\d{4}-\d{2}-\d{2}-/,'').replace(/\.md$/,'')
+  $('#pe-cover').value=p.cover||'';$('#pe-categories').value=(p.categories||[]).join(', ');$('#pe-tags').value=(p.tags||[]).join(', ')
+  renderChips()
+  $('#pe-desc').value=p.description||'';$('#pe-content').value=p.content||''
+  $('#postEditTitle').textContent='编辑：'+(p.title||'')
+  $('#post-list-view').classList.add('hidden');$('#post-edit-view').classList.remove('hidden')
+}
+function newPost(){
+  $('#pe-file').value='';$('#pe-title').value='';$('#pe-date').value=new Date().toISOString().slice(0,10)
+  $('#pe-slug').value='';$('#pe-cover').value='';$('#pe-categories').value='';$('#pe-tags').value='';$('#pe-desc').value='';$('#pe-content').value=''
+  renderChips()
+  $('#postEditTitle').textContent='新建文章'
+  $('#post-list-view').classList.add('hidden');$('#post-edit-view').classList.remove('hidden')
+}
+function backToPosts(){
+  $('#post-edit-view').classList.add('hidden');$('#post-list-view').classList.remove('hidden')
+}
+async function savePost(){
+  const pm=$('#postMsg');pm.classList.add('hidden')
+  if(!$('#pe-slug').value.trim())$('#pe-slug').value='p'+Date.now().toString(36)
+  commitChipInput('categories');commitChipInput('tags')
+  if(!$('#pe-desc').value.trim())autoDesc(true)
+  const body={file:$('#pe-file').value,title:$('#pe-title').value.trim(),date:$('#pe-date').value.trim(),slug:$('#pe-slug').value.trim(),cover:$('#pe-cover').value.trim(),categories:$('#pe-categories').value.split(/[,，]/).map(x=>x.trim()).filter(Boolean),tags:$('#pe-tags').value.split(/[,，]/).map(x=>x.trim()).filter(Boolean),description:$('#pe-desc').value.trim(),content:$('#pe-content').value}
+  if(!body.title||!body.date){msg(pm,'标题、日期必填',false);return}
+  try{
+    const r=await fetch(api+'/post',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)})
+    const d=await r.json()
+    if(!d.ok){msg(pm,'❌ '+(d.error||'保存失败'),false);return}
+    msg(pm,'✅ 已保存，正在发布…',true)
+    await publishAndWait(pm)
+  }catch(e){msg(pm,'❌ 网络错误：'+e.message,false)}
+}
+async function publishAndWait(pm){
+  try{await fetch(api+'/publish',{method:'POST'})}catch(e){}
+  for(let i=0;i<60;i++){
+    await new Promise(r=>setTimeout(r,3000))
+    try{
+      const st=await (await fetch(api+'/publish-status')).json()
+      if(st.status&&(st.status.state==='done'||st.status.state==='error')){
+        msg(pm,st.status.ok?'🚀 已上线，刷新前台查看新文章':'⚠️ 发布失败，服务器日志：/tmp/resc-deploy.log',st.status.ok)
+        return
+      }
+    }catch(e){}
+  }
+  msg(pm,'⏳ 发布超时，请稍后查看线上',null)
+}
+async function rebuildSite(){
+  msg(null,'🔄 正在重新构建站点，通常需要 1-2 分钟…',null)
+  try{await fetch(api+'/publish',{method:'POST'})}catch(e){}
+  for(let i=0;i<60;i++){
+    await new Promise(r=>setTimeout(r,3000))
+    try{
+      const st=await (await fetch(api+'/publish-status')).json()
+      if(st.status&&(st.status.state==='done'||st.status.state==='error')){
+        msg(null,st.status.ok?'🚀 已重新上线，刷新前台页面即可看到':'⚠️ 构建失败，服务器日志：/tmp/resc-deploy.log',st.status.ok)
+        return
+      }
+    }catch(e){}
+  }
+  msg(null,'⏳ 构建超时，请稍后刷新看看',null)
+}
+async function deletePost(file){
+  if(!confirm('确定删除这篇文章？不可恢复。'))return
+  const r=await fetch(api+'/post?file='+encodeURIComponent(file),{method:'DELETE'});const d=await r.json()
+  if(!d.ok){msg($('#postMsg'),'❌ 删除失败',false);return}
+  const pm=$('#postMsg');msg(pm,'🔄 正在发布…',true);await publishAndWait(pm);backToPosts()
+}
+
+/* ---------- 摘要提取 ---------- */
+function autoDesc(silent){
+  let text=$('#pe-content').value.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/,'').replace(/!\[.*?\]\(.*?\)/g,'').replace(/\[.*?\]\(.*?\)/g,'').replace(/#{1,6}\s+/g,'').replace(/[*_`~]/g,'').replace(/```[\s\S]*?```/g,'').replace(/`[^`]+`/g,'').replace(/^>\s+/gm,'').replace(/^[-*+]\s+/gm,'').replace(/^\d+\.\s+/gm,'').replace(/\n+/g,' ').replace(/\s{2,}/g,' ').trim()
+  const desc=text.length>150?text.slice(0,150)+'…':text
+  $('#pe-desc').value=desc
+  if(silent)return
+  if(desc) msg($('#postMsg'),'✅ 摘要已提取（可手动修改）',true)
+  else msg($('#postMsg'),'正文为空，无法提取',false)
+}
+
+/* ---------- 图片上传 ---------- */
+function uploadImage(){$('#imgFile').click()}
+async function doUploadImg(input){
+  const file=input.files[0];if(!file)return
+  if(file.size>5*1024*1024){msg($('#postMsg'),'图片不能超过 5MB',false);return}
+  const reader=new FileReader()
+  reader.onload=async function(e){
+    try{
+      const r=await fetch(api+'/upload',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:file.name,data:e.target.result})})
+      const d=await r.json()
+      if(!d.ok){msg($('#postMsg'),'上传失败：'+(d.error||''),false);return}
+      const ta=$('#pe-content'),pos=ta.selectionStart
+      const md='\n![]('+d.url+')\n'
+      ta.value=ta.value.slice(0,pos)+md+ta.value.slice(pos)
+      ta.selectionStart=ta.selectionEnd=pos+md.length;ta.focus()
+      msg($('#postMsg'),'✅ 图片已插入，请调整位置',true)
+    }catch(e){msg($('#postMsg'),'上传失败：'+e.message,false)}
+  }
+  reader.readAsDataURL(file);input.value=''
+}
+
+/* ---------- 登出 ---------- */
+async function doLogout(){await fetch(api+'/logout',{method:'POST'});location.reload()}
+
+/* ---------- 初始化 ---------- */
+window.addEventListener('DOMContentLoaded',function(){
+  ['categories','tags'].forEach(function(kind){
+    var el=chipInput(kind); if(!el) return
+    el.addEventListener('keydown',function(e){ if(e.key==='Enter'){e.preventDefault();commitChipInput(kind)} })
+    el.addEventListener('blur',function(){ commitChipInput(kind) })
+  })
+  const panel=$('#panel')
+  panel.addEventListener('input', livePreview)
+  panel.addEventListener('change', livePreview)
+  showSection('sec-site', false)
+  $$('.sidenav a[data-sec]').forEach(x => x.classList.toggle('active', x.dataset.sec==='sec-site'))
+  openActiveSn()
+  livePreview()
+})
+</script>
+</body>
+</html>
