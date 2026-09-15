@@ -43,7 +43,7 @@
 
 ## 📸 预览
 
-> 以下为 resc.cn 线上真实页面截图。
+> 以下为 resc.cn 线上真实页面截图（桌面端首页 / 文章页 / 移动端首页）。
 
 <p align="center">
   <img src="public/images/previews/desktop-home.png" width="400" alt="首页（桌面端）">
