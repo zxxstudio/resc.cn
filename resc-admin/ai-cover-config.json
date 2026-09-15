@@ -1,0 +1,10 @@
+{
+  "enabled": false,
+  "_说明": "文章里一张图都没有时，是否调用 AI 生图。改成 true 并填下面几项即可全自动。endpoint 填兼容 OpenAI /images/generations 接口的地址（智谱、硅基流动、火山方舟、OpenAI 都可以）",
+  "endpoint": "https://open.bigmodel.cn/api/paas/v4/images/generations",
+  "api_key": "",
+  "model": "cogview-3-flash",
+  "size": "1024x1024",
+  "prompt_prefix": "为一篇中文博客文章生成封面图，横构图，简洁、有质感、留白，不要出现任何文字",
+  "timeout": 180
+}
