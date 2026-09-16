@@ -43,15 +43,41 @@
 
 ## 📸 预览
 
-> 以下为 resc.cn 线上真实页面截图（桌面端首页 / 文章页 / 移动端首页）。
+> 以下均为 resc.cn 线上真实页面截图。
 
-<p align="center">
-  <img src="public/images/previews/desktop-home.png" width="400" alt="首页（桌面端）">
-  <img src="public/images/previews/desktop-post.png" width="400" alt="文章页（桌面端）">
-</p>
-<p align="center">
-  <img src="public/images/previews/mobile-home.png" width="220" alt="首页（移动端）">
-</p>
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="public/images/previews/home.jpg" alt="🏠 首页" width="100%">
+      <br><sub>🏠 首页</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="public/images/previews/archives.jpg" alt="📚 文章归档" width="100%">
+      <br><sub>📚 文章归档</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="public/images/previews/hot.jpg" alt="🔥 热榜" width="100%">
+      <br><sub>🔥 热榜</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="public/images/previews/techshare.jpg" alt="💻 技术分享" width="100%">
+      <br><sub>💻 技术分享</sub>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="public/images/previews/tools.jpg" alt="🛠 工具箱" width="100%">
+      <br><sub>🛠 工具箱</sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="public/images/previews/about.jpg" alt="🙋 关于我" width="100%">
+      <br><sub>🙋 关于我</sub>
+    </td>
+  </tr>
+</table>
+
 ## 🧱 技术栈
 
 | 类别 | 技术 |
